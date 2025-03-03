@@ -18,7 +18,7 @@ const services = [
     icon: (
       <FaBuilding className="text-daffodilYellow text-5xl transition-transform duration-300 group-hover:scale-110" />
     ),
-    link: "/landlords",
+    link: "/contact-us",
   },
   {
     title: "Tenants",
@@ -27,7 +27,7 @@ const services = [
     icon: (
       <FaUser className="text-daffodilYellow text-5xl transition-transform duration-300 group-hover:scale-110" />
     ),
-    link: "/tenants",
+    link: "/contact-us",
   },
   {
     title: "Investors",
@@ -36,13 +36,13 @@ const services = [
     icon: (
       <FaChartLine className="text-daffodilYellow text-5xl transition-transform duration-300 group-hover:scale-110" />
     ),
-    link: "/investors",
+    link: "/contact-us",
   },
 ];
 
 const SolutionsSection = () => {
   return (
-    <section className="bg-green-100 py-20 px-6 md:px-12">
+    <section className="bg-green-200 py-20 px-6 md:px-12">
       <MaxWidthWrapper>
         {/* Section Heading */}
         <div className="mx-auto text-center max-w-3xl">

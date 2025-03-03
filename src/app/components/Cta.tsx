@@ -1,5 +1,6 @@
 import React from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
+import Link from "next/link";
 
 const CallToAction = () => {
   return (
@@ -15,10 +16,10 @@ const CallToAction = () => {
           </p>
           <div className="mt-6 flex flex-col sm:flex-row justify-center gap-4">
             <button className="px-6 py-3 bg-daffodilYellow text-charcoalGray font-semibold rounded-md shadow hover:bg-softGreen transition-all">
-              Get Started
+              <Link href={"/auth/login"}>Get Started</Link>
             </button>
             <button className="px-6 py-3 border-2 border-[#FFD700] text-charcoalGray font-semibold rounded-md hover:bg-softGreen transition-all hover:border-softGreen">
-              Contact Us
+              <Link href={"/contact-us"}>Contact Us</Link>
             </button>
           </div>
         </div>

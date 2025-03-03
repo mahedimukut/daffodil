@@ -16,10 +16,12 @@ const Hero = () => {
       {/* Text and Content */}
       <MaxWidthWrapper>
         <div className="text-white relative z-10">
-          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight flex flex-col gap-2 tracking-wide">
-            <span>Your Trusted Partner for</span>
-            <span>HMO Solutions</span>
+          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight flex flex-col gap-2 tracking-wide bg-gradient-to-r from-daffodilYellow via-green-200 to-cyan-300 text-transparent bg-clip-text animate-gradient drop-shadow-sm">
+            <span className="max-w-4xl mx-auto">
+              Your Trusted Partner for HMO Solutions
+            </span>
           </h1>
+
           <p className="mt-6 text-lg tracking-wide max-w-3xl mx-auto font-inter font-light">
             At Daffodil HMO Solutions, we specialize in comprehensive property
             management services tailored for HMO landlords and supported living
