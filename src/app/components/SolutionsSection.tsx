@@ -1,13 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  FaBuilding,
-  FaUser,
-  FaChartLine,
-  FaHandHoldingHeart,
-  FaHandsHelping,
-} from "react-icons/fa";
+import { FaBuilding, FaUser, FaChartLine } from "react-icons/fa";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 
 const services = [
@@ -42,7 +36,7 @@ const services = [
 
 const SolutionsSection = () => {
   return (
-    <section className="bg-green-200 py-20 px-6 md:px-12">
+    <section className="bg-yellow-50 py-20 px-6 md:px-12">
       <MaxWidthWrapper>
         {/* Section Heading */}
         <div className="mx-auto text-center max-w-3xl">

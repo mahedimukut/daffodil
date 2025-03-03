@@ -25,6 +25,7 @@ const navItems = [
   { name: "About us", href: "/about-us" },
   { name: "Our services", href: "/our-services" },
   { name: "Available rooms", href: "/available-rooms" },
+  { name: "Jobs", href: "/jobs" },
   { name: "Contact us", href: "/contact-us" },
 ];
 
