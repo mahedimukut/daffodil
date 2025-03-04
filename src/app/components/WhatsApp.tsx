@@ -23,7 +23,7 @@ const WhatsAppWidget = () => {
 
   return (
     <div
-      className={`fixed bottom-20 right-4 flex items-center justify-center transition-opacity duration-500 ${
+      className={`fixed bottom-6 right-6 flex items-center justify-center transition-opacity duration-500 ${
         isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
