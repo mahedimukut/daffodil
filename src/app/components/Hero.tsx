@@ -16,7 +16,7 @@ const Hero = () => {
       {/* Text and Content */}
       <MaxWidthWrapper>
         <div className="text-white relative z-10">
-          <h1 className="text-[40px] md:text-6xl font-extrabold leading-tight flex flex-col gap-2 tracking-wide bg-gradient-to-r from-white via-daffodilYellow to-cyan-300 text-transparent bg-clip-text animate-gradient drop-shadow-sm">
+          <h1 className="text-[40px] md:text-6xl font-extrabold leading-tight flex flex-col gap-2 tracking-wide bg-gradient-to-r from-white via-green-300 to-cyan-300 text-transparent bg-clip-text animate-gradient drop-shadow-sm">
             <span className="max-w-4xl mx-auto">
               Your Trusted Partner for HMO Solutions
             </span>

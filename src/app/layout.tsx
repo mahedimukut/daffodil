@@ -5,7 +5,6 @@ import { Header } from "./components/Header";
 import Footer from "./components/Footer";
 import ClientWrapper from "./components/ClientWrapper"; // A client-side wrapper for SessionProvider
 import TopBar from "./components/TopBar";
-import ScrollToTop from "./components/ScrollToTop";
 import WhatsAppWidget from "./components/WhatsApp";
 
 // Import both fonts with CSS variables
