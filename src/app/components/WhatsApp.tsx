@@ -1,13 +1,32 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 
 const WhatsAppWidget = () => {
+  const [isVisible, setIsVisible] = useState(false);
   const phoneNumber = "+447568353414";
   const whatsappLink = `https://wa.me/${phoneNumber}`;
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className="fixed bottom-6 right-6 flex items-center justify-center">
+    <div
+      className={`fixed bottom-20 right-4 flex items-center justify-center transition-opacity duration-500 ${
+        isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
+    >
       {/* Ping Effect */}
       <div className="absolute w-14 h-14 bg-green-500 rounded-full animate-ping opacity-75"></div>
 

@@ -41,6 +41,7 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer />
+          <ScrollToTop />
           <WhatsAppWidget />
         </ClientWrapper>
       </body>
