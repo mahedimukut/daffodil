@@ -41,7 +41,7 @@ const FAQSection = () => {
           {faqs.map((faq, index) => (
             <details
               key={index}
-              className="bg-white p-5 rounded-lg border-l-4 border-daffodilYellow shadow-md group"
+              className="bg-white p-5 rounded-lg border-l-4 border-daffodilYellow shadow-sm group"
             >
               <summary className="flex justify-between items-center font-semibold text-charcoalGray cursor-pointer">
                 {faq.question}

@@ -16,7 +16,7 @@ const Hero = () => {
       {/* Text and Content */}
       <MaxWidthWrapper>
         <div className="text-white relative z-10">
-          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight flex flex-col gap-2 tracking-wide bg-gradient-to-r from-white via-green-200 to-cyan-300 text-transparent bg-clip-text animate-gradient drop-shadow-sm">
+          <h1 className="text-5xl md:text-6xl font-extrabold leading-tight flex flex-col gap-2 tracking-wide bg-gradient-to-r from-white via-daffodilYellow to-cyan-300 text-transparent bg-clip-text animate-gradient drop-shadow-sm">
             <span className="max-w-4xl mx-auto">
               Your Trusted Partner for HMO Solutions
             </span>
@@ -31,10 +31,10 @@ const Hero = () => {
 
         <div className="flex gap-6 items-center justify-center mt-14 relative z-10">
           <button className="bg-daffodilYellow py-3 px-6 rounded-lg text-base md:text-lg font-semibold hover:bg-softGreen transition-all duration-300">
-            <Link href={"/available-rooms"}>Find Available Rooms</Link>
+            <Link href={"/available-rooms"}>Available Rooms</Link>
           </button>
-          <button className="bg-charcoalGray text-white py-3 px-6 rounded-lg text-base md:text-lg font-semibold hover:bg-softGreen hover:text-charcoalGray transition-all duration-300">
-            <Link href={"/our-services"}>Our Service</Link>
+          <button className="border border-white/70 text-white py-3 px-6 rounded-lg text-base md:text-lg font-semibold hover:bg-softGreen hover:text-charcoalGray hover:border-softGreen transition-all duration-300">
+            <Link href={"/our-services"}>Our Services</Link>
           </button>
         </div>
       </MaxWidthWrapper>

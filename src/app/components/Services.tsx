@@ -152,9 +152,21 @@ const services = [
   },
 ];
 
+// Predefined background colors for the service boxes
+const bgColors = [
+  "bg-yellow-100",
+  "bg-green-100",
+  "bg-blue-100",
+  "bg-purple-100",
+  "bg-pink-100",
+  "bg-indigo-100",
+  "bg-teal-100",
+  "bg-red-100",
+];
+
 const ServiceSection = () => {
   return (
-    <div className="bg-gray-50 py-20">
+    <div className="bg-gray-50 py-12">
       <MaxWidthWrapper>
         <h2 className="text-4xl font-extrabold text-charcoalGray text-center">
           Our Professional Services
@@ -168,17 +180,19 @@ const ServiceSection = () => {
           {services.map((service, index) => (
             <div
               key={index}
-              className="bg-white p-6 border border-daffodilYellow rounded-lg shadow-sm transition-transform transform hover:scale-105"
+              className={`p-6 border rounded-lg shadow-md transition-transform transform hover:scale-105 ${
+                bgColors[index % bgColors.length]
+              }`}
             >
               <div className="flex items-center mb-6">
-                <div className="p-4 bg-daffodilYellow text-white rounded-full">
+                <div className="p-4 bg-white text-charcoalGray rounded-full shadow">
                   {service.icon}
                 </div>
                 <h3 className="text-xl font-semibold text-charcoalGray ml-4">
                   {service.title}
                 </h3>
               </div>
-              <p className="text-gray-600">{service.description}</p>
+              <p className="text-gray-700">{service.description}</p>
             </div>
           ))}
         </div>

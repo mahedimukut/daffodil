@@ -25,7 +25,6 @@ const navItems = [
   { name: "About us", href: "/about-us" },
   { name: "Our services", href: "/our-services" },
   { name: "Available rooms", href: "/available-rooms" },
-  { name: "Jobs", href: "/jobs" },
   { name: "Contact us", href: "/contact-us" },
 ];
 
@@ -35,7 +34,7 @@ export const Header = () => {
   const { data: session, status } = useSession();
 
   return (
-    <header className="bg-white shadow-sm sticky z-[200] h-20 inset-x-0 top-0 w-full border-b border-gray-100 transition-all">
+    <header className="bg-gray-50 shadow-sm sticky z-[200] h-20 inset-x-0 top-0 w-full border-b border-gray-100 transition-all">
       <MaxWidthWrapper className="flex items-center justify-between px-6">
         {/* Logo */}
         <Link href="/">
