@@ -2,14 +2,6 @@ import Image from "next/image";
 import MaxWidthWrapper from "../components/MaxWidthWrapper";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import {
-  MdSupportAgent,
-  MdAttachMoney,
-  MdChecklist,
-  MdHomeWork,
-  MdGavel,
-  MdComputer,
-} from "react-icons/md";
 
 const companyImage = "/company.jpg";
 

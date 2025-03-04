@@ -39,7 +39,7 @@ const bgColors = ["bg-green-100", "bg-pink-100", "bg-blue-100"];
 
 const SolutionsSection = () => {
   return (
-    <section className="bg-white py-20 px-6 md:px-12">
+    <section className="bg-white py-12 px-6 md:px-12">
       <MaxWidthWrapper>
         {/* Section Heading */}
         <div className="mx-auto text-center max-w-3xl">

@@ -6,9 +6,12 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Loader2 } from "lucide-react"; // Import spinner icon
 
-const LoginPageComponent = dynamic(() => import("@/app/components/LoginPage"), {
-  ssr: false, // Disable SSR for smooth hydration
-});
+const LoginPageComponent = dynamic(
+  () => import("@/app/components/SignupForm"),
+  {
+    ssr: false, // Disable SSR for smooth hydration
+  }
+);
 
 export default function LoginPage() {
   const { data: session, status } = useSession();
