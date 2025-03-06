@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import ClientWrapper from "./components/ClientWrapper"; // A client-side wrapper for SessionProvider
 import TopBar from "./components/TopBar";
 import WhatsAppWidget from "./components/WhatsApp";
+import CustomQueryClientProvider from "@/lib/QueryClientProvider";
 
 // Import both fonts with CSS variables
 const poppins = Poppins({
@@ -36,11 +37,13 @@ export default function RootLayout({
     <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
       <body className="font-sans antialiased bg-white text-charcoalGray">
         <ClientWrapper>
-          <TopBar />
-          <Header />
-          {children}
-          <Footer />
-          <WhatsAppWidget />
+          <CustomQueryClientProvider>
+            <TopBar />
+            <Header />
+            {children}
+            <Footer />
+            <WhatsAppWidget />
+          </CustomQueryClientProvider>
         </ClientWrapper>
       </body>
     </html>

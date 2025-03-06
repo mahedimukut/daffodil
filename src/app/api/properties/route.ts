@@ -6,7 +6,6 @@ export async function POST(req: Request) {
   try {
     // Get the authenticated session
     const session = await auth();
-    console.log(session);
 
     // Check if user is authenticated
     if (!session || !session.user) {
@@ -43,6 +42,16 @@ export async function POST(req: Request) {
     return NextResponse.json(newProperty, { status: 201 });
   } catch (error) {
     console.error("Error adding property:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}
+
+export async function GET() {
+  try {
+    const properties = await prisma.property.findMany();
+    return NextResponse.json(properties, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching properties:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
