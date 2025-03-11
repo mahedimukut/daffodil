@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { NextRequest } from "next/server";
 
 export async function GET(
-  req: NextRequest,
+  request: Request, // Use `Request` instead of `NextRequest`
   { params }: { params: { id: string } } // Correctly destructure `params`
 ) {
   try {
