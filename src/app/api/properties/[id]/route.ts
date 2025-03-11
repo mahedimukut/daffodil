@@ -2,9 +2,12 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(
+  req: NextRequest,
+  context: { params: { id: string } } // Fix: Explicitly name second argument "context"
+) {
   try {
-    const { id } = params;  // Corrected: destructuring directly
+    const { id } = context.params; // Fix: Reference "context.params"
 
     const property = await prisma.property.findUnique({
       where: { id },
@@ -16,7 +19,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
     return NextResponse.json(property, { status: 200 });
   } catch (error) {
-    console.error(error); // Log error details for debugging
+    console.error(error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
