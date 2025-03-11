@@ -4,10 +4,10 @@ import { NextRequest } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } } // Fix: Explicitly name second argument "context"
+  { params }: { params: { id: string } } // Correctly destructure `params`
 ) {
   try {
-    const { id } = context.params; // Fix: Reference "context.params"
+    const { id } = params; // Access `params` directly
 
     const property = await prisma.property.findUnique({
       where: { id },
