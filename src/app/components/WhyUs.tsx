@@ -56,7 +56,7 @@ const WhyChooseUsSection = () => {
             {/* Button */}
             <a
               href="/available-rooms" // Link to the page for available rooms
-              className="inline-block px-6 py-3 bg-daffodilYellow text-charcoalGray font-semibold rounded-lg shadow-md hover:bg-softGreen"
+              className="inline-block px-6 py-3 bg-daffodilYellow text-charcoalGray font-semibold rounded-lg shadow-sm hover:bg-softGreen"
             >
               Find Available Rooms
             </a>

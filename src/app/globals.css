@@ -82,5 +82,66 @@ body {
     background-size: 200% 200%;
     animation: gradientShift 6s ease-in-out infinite;
   }
+
+  .react-datepicker__day--keyboard-selected:not([aria-disabled="true"]):hover, .react-datepicker__month-text--keyboard-selected:not([aria-disabled="true"]):hover, .react-datepicker__quarter-text--keyboard-selected:not([aria-disabled="true"]):hover, .react-datepicker__year-text--keyboard-selected:not([aria-disabled="true"]):hover {
+    background-color: rgb(227, 227, 45) !important;
+    padding: 2px 1px !important;
+}
+
+.react-datepicker__day--keyboard-selected, .react-datepicker__month-text--keyboard-selected, .react-datepicker__quarter-text--keyboard-selected, .react-datepicker__year-text--keyboard-selected {
+    border-radius: .3rem;
+    background-color: #d9e8f4 !important;
+    color: #000;
+    padding: 2px 1px !important;
+}
+
+.react-datepicker__month-container {
+    float: left;
+    background: rgb(255 215 0 / var(--tw-bg-opacity, 1)) !important;
+}
+
+.react-datepicker__current-month, .react-datepicker-time__header, .react-datepicker-year-header {
+    margin-top: 0;
+    color: #ffff0b !important;
+    font-weight: bold;
+    font-size: .944rem;
+    background: #5c8a5c !important;
+}
+
+.react-datepicker__month .react-datepicker__month-text, .react-datepicker__month .react-datepicker__quarter-text {
+    display: inline-block;
+    width: 4rem;
+    margin: 2px;
+    padding: 2px 1px !important;
+}
+
+/* Slide-up animation for loading the banner */
+@keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
   
+  /* Slide-down animation for deleting the banner */
+  @keyframes slideDown {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+  
+  /* Apply animations to the banner */
+  .cookie-banner {
+    animation: slideUp 0.5s ease-in-out forwards;
+  }
+  
+  .cookie-banner.hide {
+    animation: slideDown 0.5s ease-in-out forwards;
+  }
+
   

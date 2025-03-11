@@ -8,6 +8,11 @@ import { Loader2 } from "lucide-react";
 
 const LoginPageComponent = dynamic(() => import("@/app/components/LoginPage"), {
   ssr: false, // Disables server-side rendering for this component
+  loading: () => (
+    <div className="flex h-screen items-center justify-center">
+      <Loader2 className="h-10 w-10 animate-spin text-daffodilYellow" />
+    </div>
+  ), // Show a loading spinner while the component is being loaded
 });
 
 export default function LoginPage() {
@@ -23,7 +28,7 @@ export default function LoginPage() {
     }
   }, [status, router]);
 
-  // Show spinner while checking session
+  // Show spinner while checking session or loading the component
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">

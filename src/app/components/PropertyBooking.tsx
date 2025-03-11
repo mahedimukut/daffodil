@@ -8,6 +8,7 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { useSession } from "next-auth/react";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function PropertyList() {
   const { data: session } = useSession();
@@ -145,7 +146,7 @@ export default function PropertyList() {
 
   const toggleFavorite = async (propertyId: number) => {
     if (!session) {
-      alert("You must be logged in to favorite properties.");
+      toast.error("Please log in to add properties to favorites");
       return;
     }
 
@@ -275,7 +276,7 @@ export default function PropertyList() {
                   <Link href={`/available-rooms/${property.id}`}>
                     <div className="relative">
                       <img
-                        src={property.image}
+                        src={property.images[0]}
                         alt={property.name}
                         className="w-full h-56 object-cover opacity-0 transition-opacity duration-700 ease-in-out"
                         loading="lazy"
@@ -397,6 +398,7 @@ export default function PropertyList() {
             </div>
           </div>
         )}
+        <ToastContainer />
       </MaxWidthWrapper>
     </div>
   );

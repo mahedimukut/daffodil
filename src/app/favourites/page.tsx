@@ -15,7 +15,7 @@ type Property = {
   toilets: number;
   balcony: boolean;
   sqft: number;
-  image: string;
+  images: string[];
   details: string;
   location: string;
   available: string;
@@ -137,7 +137,7 @@ const FavouritePage = () => {
                   <div className="relative">
                     <Link href={`/available-rooms/${property.id}`}>
                       <img
-                        src={property.image}
+                        src={property.images[0]}
                         alt={property.name}
                         className="w-full h-56 object-cover opacity-0 transition-opacity duration-700 ease-in-out"
                         loading="lazy"

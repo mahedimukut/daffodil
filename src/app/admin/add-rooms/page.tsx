@@ -17,7 +17,9 @@ const propertySchema = z.object({
   toilets: z.number().min(1, "At least 1 toilet required"),
   balcony: z.boolean(),
   sqft: z.number().min(100, "Minimum size is 100 sqft"),
-  image: z.string().url("Image URL is required"),
+  images: z
+    .array(z.string().url("Valid image URL required"))
+    .min(1, "At least 1 image is required"),
   details: z.string().min(10, "Property details required"),
   location: z.string().min(3, "Location is required"),
   available: z.string().min(4, "Availability date required"),
@@ -27,16 +29,35 @@ export default function AddPropertyPage() {
   const { data: session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [imageUrls, setImageUrls] = useState<string[]>([]); // State to store multiple image URLs
+  const [newImageUrl, setNewImageUrl] = useState(""); // State for the current image URL input
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm({ resolver: zodResolver(propertySchema) });
 
   if (!session) {
     return <p className="text-red-500">Access denied. Admins only.</p>;
   }
+
+  // Function to add a new image URL to the list
+  const addImageUrl = () => {
+    if (newImageUrl && !imageUrls.includes(newImageUrl)) {
+      setImageUrls([...imageUrls, newImageUrl]);
+      setValue("images", [...imageUrls, newImageUrl]); // Update form value
+      setNewImageUrl(""); // Clear the input
+    }
+  };
+
+  // Function to remove an image URL from the list
+  const removeImageUrl = (url: string) => {
+    const updatedUrls = imageUrls.filter((imageUrl) => imageUrl !== url);
+    setImageUrls(updatedUrls);
+    setValue("images", updatedUrls); // Update form value
+  };
 
   const onSubmit = async (data: any) => {
     setLoading(true);
@@ -60,6 +81,7 @@ export default function AddPropertyPage() {
       <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg my-4 sm:my-8">
         <h2 className="text-xl font-bold mb-4">Add Property</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* Existing fields (name, price, bedrooms, etc.) */}
           <Input {...register("name")} placeholder="Property Name" />
           {errors.name?.message && (
             <p className="text-red-500">{String(errors.name.message)}</p>
@@ -102,10 +124,39 @@ export default function AddPropertyPage() {
             <p className="text-red-500">{String(errors.sqft.message)}</p>
           )}
 
-          <Input {...register("image")} placeholder="Image URL" />
-          {errors.image?.message && (
-            <p className="text-red-500">{String(errors.image.message)}</p>
-          )}
+          {/* Image URLs input */}
+          <div>
+            <label className="block mb-2">Image URLs</label>
+            <div className="flex space-x-2">
+              <Input
+                type="url"
+                value={newImageUrl}
+                onChange={(e) => setNewImageUrl(e.target.value)}
+                placeholder="Enter image URL"
+              />
+              <Button type="button" onClick={addImageUrl}>
+                Add
+              </Button>
+            </div>
+            {errors.images?.message && (
+              <p className="text-red-500">{String(errors.images.message)}</p>
+            )}
+            <div className="mt-2 space-y-2">
+              {imageUrls.map((url, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <span className="truncate">{url}</span>
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => removeImageUrl(url)}
+                  >
+                    Remove
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
 
           <Textarea {...register("details")} placeholder="Property Details" />
           {errors.details?.message && (

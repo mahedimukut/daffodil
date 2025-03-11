@@ -1,6 +1,6 @@
 "use client"; // Mark this as a client-side component
 
-import { useState, Suspense } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,105 +44,89 @@ const LoginPageComponent = () => {
   };
 
   return (
-    <Suspense
-      fallback={
-        <Loader2 className="h-10 w-10 animate-spin text-daffodilYellow" />
-      }
-    >
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="bg-white p-10 rounded-lg shadow-lg w-full max-w-md">
-          <h2 className="text-3xl font-bold text-center text-charcoalGray mb-6">
-            Welcome Back!
-          </h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-10 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-3xl font-bold text-center text-charcoalGray mb-6">
+          Welcome Back!
+        </h2>
 
-          <button
-            onClick={() =>
-              signIn("google", { callbackUrl: callbackUrl || "/" })
-            }
-            className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-charcoalGray font-semibold py-3 rounded-md mb-6 shadow-md hover:bg-gray-100 transition-all"
-          >
-            <FcGoogle className="h-5 w-5 text-red-500" />
-            Continue with Google
-          </button>
+        <button
+          onClick={() => signIn("google", { callbackUrl: callbackUrl || "/" })}
+          className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-charcoalGray font-semibold py-3 rounded-md mb-6 shadow-md hover:bg-gray-100 transition-all"
+        >
+          <FcGoogle className="h-5 w-5 text-red-500" />
+          Continue with Google
+        </button>
 
-          <div className="flex items-center justify-between mb-6">
-            <hr className="w-1/3 border-gray-300" />
-            <span className="text-gray-400 text-sm">or</span>
-            <hr className="w-1/3 border-gray-300" />
+        <div className="flex items-center justify-between mb-6">
+          <hr className="w-1/3 border-gray-300" />
+          <span className="text-gray-400 text-sm">or</span>
+          <hr className="w-1/3 border-gray-300" />
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <div>
+            <label className="block text-charcoalGray font-medium">Email</label>
+            <div className="relative mt-1">
+              <Mail className="absolute left-3 top-3 text-gray-400" size={20} />
+              <input
+                type="email"
+                {...register("email")}
+                className="w-full border border-gray-300 rounded-md py-3 pl-10 pr-4 focus:outline-none focus:border-softGreen"
+              />
+            </div>
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            <div>
-              <label className="block text-charcoalGray font-medium">
-                Email
-              </label>
-              <div className="relative mt-1">
-                <Mail
-                  className="absolute left-3 top-3 text-gray-400"
-                  size={20}
-                />
-                <input
-                  type="email"
-                  {...register("email")}
-                  className="w-full border border-gray-300 rounded-md py-3 pl-10 pr-4 focus:outline-none focus:border-softGreen"
-                />
-              </div>
-              {errors.email && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.email.message}
-                </p>
-              )}
+          <div>
+            <label className="block text-charcoalGray font-medium">
+              Password
+            </label>
+            <div className="relative mt-1">
+              <Lock className="absolute left-3 top-3 text-gray-400" size={20} />
+              <input
+                type="password"
+                {...register("password")}
+                className="w-full border border-gray-300 rounded-md py-3 pl-10 pr-4 focus:outline-none focus:border-softGreen"
+              />
             </div>
-
-            <div>
-              <label className="block text-charcoalGray font-medium">
-                Password
-              </label>
-              <div className="relative mt-1">
-                <Lock
-                  className="absolute left-3 top-3 text-gray-400"
-                  size={20}
-                />
-                <input
-                  type="password"
-                  {...register("password")}
-                  className="w-full border border-gray-300 rounded-md py-3 pl-10 pr-4 focus:outline-none focus:border-softGreen"
-                />
-              </div>
-              {errors.password && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
-
-            {error && (
-              <p className="text-red-500 text-center text-sm">{error}</p>
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
             )}
+          </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-daffodilYellow text-charcoalGray font-semibold py-3 rounded-md hover:bg-softGreen transition-all"
-            >
-              {isSubmitting ? "Loading..." : "Login"}
-            </button>
-          </form>
+          {error && <p className="text-red-500 text-center text-sm">{error}</p>}
 
-          <p className="text-center mt-6 text-charcoalGray">
-            Don't have an account?{" "}
-            <a
-              href={`/auth/signup?callbackUrl=${encodeURIComponent(
-                callbackUrl
-              )}`}
-              className="text-charcoalGray font-semibold hover:underline"
-            >
-              Sign Up
-            </a>
-          </p>
-        </div>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-daffodilYellow text-charcoalGray font-semibold py-3 rounded-md hover:bg-softGreen transition-all"
+          >
+            {isSubmitting ? (
+              <Loader2 className="h-5 w-5 animate-spin mx-auto" />
+            ) : (
+              "Login"
+            )}
+          </button>
+        </form>
+
+        <p className="text-center mt-6 text-charcoalGray">
+          Don't have an account?{" "}
+          <a
+            href={`/auth/signup?callbackUrl=${encodeURIComponent(callbackUrl)}`}
+            className="text-charcoalGray font-semibold hover:underline"
+          >
+            Sign Up
+          </a>
+        </p>
       </div>
-    </Suspense>
+    </div>
   );
 };
 

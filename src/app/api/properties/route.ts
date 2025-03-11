@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "../../../../auth"; // Import NextAuth authentication
 import { prisma } from "@/lib/prisma";
 
+// Handle POST request to create a new property
 export async function POST(req: Request) {
   try {
     // Get the authenticated session
@@ -16,10 +17,10 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { name, price, bedrooms, toilets, balcony, sqft, image, details, location, available } = body;
+    const { name, price, bedrooms, toilets, balcony, sqft, images, details, location, available } = body;
 
     // Validate required fields
-    if (!name || !price || !bedrooms || !toilets || !sqft || !image || !details || !location || !available) {
+    if (!name || !price || !bedrooms || !toilets || !sqft || !images || !details || !location || !available) {
       return NextResponse.json({ error: "All fields are required." }, { status: 400 });
     }
 
@@ -32,10 +33,11 @@ export async function POST(req: Request) {
         toilets,
         balcony,
         sqft,
-        image,
+        images, // Array of image URLs
         details,
         location,
         available,
+        ownerId: session.user.id, // Assign the property to the authenticated user
       },
     });
 
@@ -46,12 +48,16 @@ export async function POST(req: Request) {
   }
 }
 
+// Handle GET request to fetch all properties
 export async function GET() {
   try {
     const properties = await prisma.property.findMany();
     return NextResponse.json(properties, { status: 200 });
   } catch (error) {
     console.error("Error fetching properties:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }

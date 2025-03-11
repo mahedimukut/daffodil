@@ -6,14 +6,19 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Loader2 } from "lucide-react"; // Import spinner icon
 
-const LoginPageComponent = dynamic(
+const SignupPageComponent = dynamic(
   () => import("@/app/components/SignupForm"),
   {
     ssr: false, // Disable SSR for smooth hydration
+    loading: () => (
+      <div className="flex h-screen items-center justify-center">
+        <Loader2 className="h-10 w-10 animate-spin text-daffodilYellow" />
+      </div>
+    ), // Show a loading spinner while the component is being loaded
   }
 );
 
-export default function LoginPage() {
+export default function SignupPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -31,5 +36,5 @@ export default function LoginPage() {
     ); // Show loading spinner
   }
 
-  return <LoginPageComponent />;
+  return <SignupPageComponent />;
 }

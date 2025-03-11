@@ -4,17 +4,18 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 import { Bed, Toilet, Square, Heart } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { toast } from "react-toastify";
 
 // Define Property Type
 type Property = {
-  id: number;
+  id: string; // Change from `number` to `string`
   name: string;
   price: string;
   bedrooms: number;
   toilets: number;
   balcony: boolean;
   sqft: number;
-  image: string;
+  images: string[]; // Change from `image` to `images`
   details: string;
   location: string;
   available: string;
@@ -65,9 +66,10 @@ const NewlyArrived = () => {
     }
   }, [session]);
 
-  const toggleFavorite = async (propertyId: number) => {
+  const toggleFavorite = async (propertyId: string) => {
+    // Change from `number` to `string`
     if (!session) {
-      alert("You must be logged in to favorite properties.");
+      toast.error("Please sign in to add to favorites");
       return;
     }
 
@@ -86,9 +88,9 @@ const NewlyArrived = () => {
 
       setFavorites(
         (prevFavorites) =>
-          prevFavorites.includes(String(propertyId))
-            ? prevFavorites.filter((id) => id !== String(propertyId)) // Remove if exists
-            : [...prevFavorites, String(propertyId)] // Add if not exists
+          prevFavorites.includes(propertyId)
+            ? prevFavorites.filter((id) => id !== propertyId) // Remove if exists
+            : [...prevFavorites, propertyId] // Add if not exists
       );
     } catch (error) {
       console.error("Error updating favorite:", error);
@@ -143,7 +145,7 @@ const NewlyArrived = () => {
                     <Link href={`/available-rooms/${property.id}`}>
                       <div className="relative">
                         <img
-                          src={property.image}
+                          src={property.images[0]} // Use the first image from the array
                           alt={property.name}
                           className="w-full h-56 object-cover opacity-0 transition-opacity duration-700 ease-in-out"
                           loading="lazy"
@@ -161,7 +163,7 @@ const NewlyArrived = () => {
                           <Heart
                             size={24}
                             className={`${
-                              favorites.includes(String(property.id))
+                              favorites.includes(property.id)
                                 ? "text-daffodilYellow fill-daffodilYellow"
                                 : "text-white"
                             } hover:text-daffodilYellow`}

@@ -20,7 +20,7 @@ type Booking = {
     bedrooms: number;
     toilets: number;
     sqft: number;
-    image: string;
+    images: string[];
     location: string;
   };
 };
@@ -38,7 +38,6 @@ const Booking = () => {
   const [cancelingBookingId, setCancelingBookingId] = useState<number | null>(
     null
   );
-
   // Fetch bookings only if the user is logged in
   const {
     data: bookings,
@@ -130,7 +129,7 @@ const Booking = () => {
                 <Link href={`/available-rooms/${booking.property.id}`}>
                   <div className="relative">
                     <img
-                      src={booking.property.image || "/placeholder.jpg"}
+                      src={booking.property.images[0] || "/placeholder.jpg"}
                       alt={booking.property.name || "Property"}
                       className="w-full h-56 object-cover"
                     />

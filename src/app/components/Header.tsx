@@ -34,7 +34,7 @@ export const Header = () => {
   const { data: session, status } = useSession();
 
   return (
-    <header className="bg-gray-50 shadow-sm sticky z-[200] h-20 inset-x-0 top-0 w-full border-b border-gray-100 transition-all">
+    <header className="bg-gray-50 shadow-sm sticky z-[50] h-20 inset-x-0 top-0 w-full border-b border-gray-100 transition-all">
       <MaxWidthWrapper className="flex items-center justify-between px-6">
         {/* Logo */}
         <Link href="/">
@@ -80,6 +80,7 @@ export const Header = () => {
                   <Link
                     href="/favourites"
                     className="flex items-center gap-2 px-4 py-2 text-sm text-charcoalGray hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
                   >
                     <Star className="w-4 h-4" />
                     Favorites
@@ -87,6 +88,7 @@ export const Header = () => {
                   <Link
                     href="/bookings"
                     className="flex items-center gap-2 px-4 py-2 text-sm text-charcoalGray hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
                   >
                     <Calendar className="w-4 h-4" />
                     Bookings
@@ -96,6 +98,7 @@ export const Header = () => {
                     <Link
                       href="/admin/add-rooms"
                       className="flex items-center gap-2 px-4 py-2 text-sm text-charcoalGray hover:bg-gray-100"
+                      onClick={() => setDropdownOpen(!dropdownOpen)}
                     >
                       <PlusSquare className="w-4 h-4" />
                       Add Rooms

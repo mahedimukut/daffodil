@@ -14,22 +14,22 @@ const TopBar = () => {
           {/* Left: Contact Info */}
           <div className="flex items-center gap-6">
             <a
-              href="mailto:info@daffodilhmo.com"
+              href="mailto:info@daffodilhmosolutions.co.uk"
               className="flex items-center gap-2 hover:text-black transition"
             >
               <MdEmail size={18} />
-              info@daffodilhmo.com
+              info@daffodilhmosolutions.co.uk
             </a>
             <a
-              href="tel:+441234567890"
+              href="tel:+447568353414"
               className="flex items-center gap-2 hover:text-black transition"
             >
               <FiPhone size={18} />
-              +44 1234 567890
+              +44 7568 353414
             </a>
             <div className="flex items-center gap-2 text-gray-700">
               <MdLocationOn size={18} />
-              <span>123 Daffodil Street, London, UK</span>
+              <span>Birmingham, UK</span>
             </div>
           </div>
 
