@@ -1,13 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET(
-  request: Request,
-  context: { params: { id?: string } } // `id` can be optional to avoid destructuring errors
-) {
+// GET a single property by ID
+export async function GET(req: NextRequest, { params }: { params: { id?: string } }) {
   try {
-    const params = await context.params; // Await params before accessing properties
-    const id = params?.id; // Safely access `id`
+    const id = params?.id;
 
     if (!id) {
       return NextResponse.json({ error: "Property ID is required" }, { status: 400 });
@@ -23,15 +20,14 @@ export async function GET(
 
     return NextResponse.json(property, { status: 200 });
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching property:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
 
 // PUT (update) an existing property
-export async function PUT(req: Request, context: { params: { id?: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: { id?: string } }) {
   try {
-    const params = context.params; // Get the `id` from the URL params
     const id = params?.id;
 
     if (!id) {
@@ -41,7 +37,6 @@ export async function PUT(req: Request, context: { params: { id?: string } }) {
     const body = await req.json();
     const { name, price, bedrooms, toilets, balcony, sqft, images, details, location, available } = body;
 
-    // Update the property
     const updatedProperty = await prisma.property.update({
       where: { id },
       data: {
@@ -66,17 +61,15 @@ export async function PUT(req: Request, context: { params: { id?: string } }) {
 }
 
 // DELETE a property
-export async function DELETE(req: Request, context: { params: { id?: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: { id?: string } }) {
   try {
-    const params = context.params; // Get the `id` from the URL params
     const id = params?.id;
 
     if (!id) {
       return NextResponse.json({ error: "Property ID is required" }, { status: 400 });
     }
 
-    // Delete the property
-    const deletedProperty = await prisma.property.delete({
+    await prisma.property.delete({
       where: { id },
     });
 

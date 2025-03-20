@@ -1,10 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "../../../../../auth";
 
 // DELETE a team member
-export async function DELETE(req: Request,context: { params: { id?: string } }) {
-
+export async function DELETE(req: NextRequest, { params }: { params: { id?: string } }) {
   try {
     const session = await auth();
 
@@ -12,15 +11,13 @@ export async function DELETE(req: Request,context: { params: { id?: string } }) 
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const params = await context.params; // Await params before accessing properties
-    const id = params?.id; // Safely access `id`
+    const id = params?.id;
 
     if (!id) {
       return NextResponse.json({ error: "Team member ID is required" }, { status: 400 });
     }
 
-    // Delete the team member
-    const deletedTeamMember = await prisma.teamMember.delete({
+    await prisma.teamMember.delete({
       where: { id },
     });
 
@@ -32,7 +29,7 @@ export async function DELETE(req: Request,context: { params: { id?: string } }) 
 }
 
 // PUT (update) an existing team member
-export async function PUT(req: Request, context: { params: { id?: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: { id?: string } }) {
   try {
     const session = await auth();
 
@@ -40,7 +37,6 @@ export async function PUT(req: Request, context: { params: { id?: string } }) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const params = context.params; // Get the `id` from the URL params
     const id = params?.id;
 
     if (!id) {
@@ -54,7 +50,6 @@ export async function PUT(req: Request, context: { params: { id?: string } }) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // Update the team member
     const updatedTeamMember = await prisma.teamMember.update({
       where: { id },
       data: {
@@ -73,9 +68,8 @@ export async function PUT(req: Request, context: { params: { id?: string } }) {
   }
 }
 
-
 // GET a single team member by ID
-export async function GET(req: Request, context: { params: { id?: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { id?: string } }) {
   try {
     const session = await auth();
 
@@ -83,14 +77,12 @@ export async function GET(req: Request, context: { params: { id?: string } }) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const params = context.params; // Get the `id` from the URL params
     const id = params?.id;
 
     if (!id) {
       return NextResponse.json({ error: "Team member ID is required" }, { status: 400 });
     }
 
-    // Fetch the team member by ID
     const teamMember = await prisma.teamMember.findUnique({
       where: { id },
     });
