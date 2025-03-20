@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "../../../../../auth";
 
+// Extract ID from URL dynamically
+const extractIdFromUrl = (req: NextRequest): string | null => {
+  const segments = req.nextUrl.pathname.split("/");
+  return segments[segments.length - 1] || null;
+};
+
 // GET a single team member by ID
 export async function GET(req: NextRequest) {
   try {
@@ -11,8 +17,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+    const id = extractIdFromUrl(req);
 
     if (!id) {
       return NextResponse.json({ error: "Team member ID is required" }, { status: 400 });
@@ -42,8 +47,7 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+    const id = extractIdFromUrl(req);
 
     if (!id) {
       return NextResponse.json({ error: "Team member ID is required" }, { status: 400 });
@@ -83,8 +87,7 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+    const id = extractIdFromUrl(req);
 
     if (!id) {
       return NextResponse.json({ error: "Team member ID is required" }, { status: 400 });

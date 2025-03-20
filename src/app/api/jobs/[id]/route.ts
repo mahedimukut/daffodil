@@ -2,11 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "../../../../../auth";
 
+// Extract ID from URL dynamically
+const extractIdFromUrl = (req: NextRequest): string | null => {
+  const segments = req.nextUrl.pathname.split("/");
+  return segments[segments.length - 1] || null;
+};
+
 // GET a single job by ID or all jobs if no ID is provided
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+    const id = extractIdFromUrl(req);
 
     if (id) {
       const job = await prisma.job.findUnique({ where: { id } });
@@ -35,7 +40,8 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const id = req.nextUrl.pathname.split("/").pop(); // Extract ID from URL
+    const id = extractIdFromUrl(req);
+
     if (!id) {
       return NextResponse.json({ error: "Job ID is required" }, { status: 400 });
     }
@@ -68,7 +74,8 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const id = req.nextUrl.pathname.split("/").pop(); // Extract ID from URL
+    const id = extractIdFromUrl(req);
+
     if (!id) {
       return NextResponse.json({ error: "Job ID is required" }, { status: 400 });
     }
