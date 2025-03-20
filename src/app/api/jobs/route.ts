@@ -5,12 +5,6 @@ import { auth } from "../../../../auth";
 // GET all jobs
 export async function GET(req: Request) {
   try {
-    const session = await auth();
-
-    if (!session || !session.user || !session.user.email) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     // Fetch all jobs
     const jobs = await prisma.job.findMany();
 

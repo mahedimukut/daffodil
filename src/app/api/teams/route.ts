@@ -5,12 +5,6 @@ import { auth } from "../../../../auth";
 // GET all team members
 export async function GET(req: Request) {
   try {
-    const session = await auth();
-
-    if (!session || !session.user || !session.user.email) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     // Fetch all team members
     const teamMembers = await prisma.teamMember.findMany();
 
