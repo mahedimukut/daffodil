@@ -1,101 +1,102 @@
-// import { NextRequest, NextResponse } from "next/server";
-// import { prisma } from "@/lib/prisma";
-// import { auth } from "../../../../../auth";
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { auth } from "../../../../../auth";
 
-// // DELETE a team member
-// export async function DELETE(req: NextRequest, { params }: { params: { id?: string } }) {
-//   try {
-//     const session = await auth();
+// GET a single team member by ID
+export async function GET(req: NextRequest) {
+  try {
+    const session = await auth();
 
-//     if (!session || !session.user || !session.user.email) {
-//       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-//     }
+    if (!session || !session.user || !session.user.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-//     const id = params?.id;
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
 
-//     if (!id) {
-//       return NextResponse.json({ error: "Team member ID is required" }, { status: 400 });
-//     }
+    if (!id) {
+      return NextResponse.json({ error: "Team member ID is required" }, { status: 400 });
+    }
 
-//     await prisma.teamMember.delete({
-//       where: { id },
-//     });
+    const teamMember = await prisma.teamMember.findUnique({
+      where: { id },
+    });
 
-//     return NextResponse.json({ message: "Team member deleted successfully" }, { status: 200 });
-//   } catch (error) {
-//     console.error("Error deleting team member:", error);
-//     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
-//   }
-// }
+    if (!teamMember) {
+      return NextResponse.json({ error: "Team member not found" }, { status: 404 });
+    }
 
-// // PUT (update) an existing team member
-// export async function PUT(req: NextRequest, { params }: { params: { id?: string } }) {
-//   try {
-//     const session = await auth();
+    return NextResponse.json(teamMember, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching team member:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}
 
-//     if (!session || !session.user || !session.user.email) {
-//       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-//     }
+// PUT (update) an existing team member
+export async function PUT(req: NextRequest) {
+  try {
+    const session = await auth();
 
-//     const id = params?.id;
+    if (!session || !session.user || !session.user.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-//     if (!id) {
-//       return NextResponse.json({ error: "Team member ID is required" }, { status: 400 });
-//     }
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
 
-//     const body = await req.json();
-//     const { name, position, image, description, socials } = body;
+    if (!id) {
+      return NextResponse.json({ error: "Team member ID is required" }, { status: 400 });
+    }
 
-//     if (!name || !position || !image || !description || !socials) {
-//       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
-//     }
+    const body = await req.json();
+    const { name, position, image, description, socials } = body;
 
-//     const updatedTeamMember = await prisma.teamMember.update({
-//       where: { id },
-//       data: {
-//         name,
-//         position,
-//         image,
-//         description,
-//         socials,
-//       },
-//     });
+    if (!name || !position || !image || !description || !socials) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
 
-//     return NextResponse.json(updatedTeamMember, { status: 200 });
-//   } catch (error) {
-//     console.error("Error updating team member:", error);
-//     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
-//   }
-// }
+    const updatedTeamMember = await prisma.teamMember.update({
+      where: { id },
+      data: {
+        name,
+        position,
+        image,
+        description,
+        socials,
+      },
+    });
 
-// // GET a single team member by ID
-// export async function GET(req: NextRequest, { params }: { params: { id?: string } }) {
-//   try {
-//     const session = await auth();
+    return NextResponse.json(updatedTeamMember, { status: 200 });
+  } catch (error) {
+    console.error("Error updating team member:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}
 
-//     if (!session || !session.user || !session.user.email) {
-//       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-//     }
+// DELETE a team member
+export async function DELETE(req: NextRequest) {
+  try {
+    const session = await auth();
 
-//     const id = params?.id;
+    if (!session || !session.user || !session.user.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-//     if (!id) {
-//       return NextResponse.json({ error: "Team member ID is required" }, { status: 400 });
-//     }
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
 
-//     const teamMember = await prisma.teamMember.findUnique({
-//       where: { id },
-//     });
+    if (!id) {
+      return NextResponse.json({ error: "Team member ID is required" }, { status: 400 });
+    }
 
-//     if (!teamMember) {
-//       return NextResponse.json({ error: "Team member not found" }, { status: 404 });
-//     }
+    await prisma.teamMember.delete({
+      where: { id },
+    });
 
-//     return NextResponse.json(teamMember, { status: 200 });
-//   } catch (error) {
-//     console.error("Error fetching team member:", error);
-//     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
-//   }
-// }
-
-export async function GET(request: Request) {}
+    return NextResponse.json({ message: "Team member deleted successfully" }, { status: 200 });
+  } catch (error) {
+    console.error("Error deleting team member:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}
