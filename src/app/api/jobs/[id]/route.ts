@@ -59,6 +59,7 @@ export async function DELETE(req: NextRequest, context: { params: { id?: string 
 }
 
 // GET a single job by ID or all jobs if no ID is provided
+
 export async function GET(req: NextRequest, context: { params: { id?: string } }) {
   try {
     const id = context.params.id;
