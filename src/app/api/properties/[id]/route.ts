@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+// Extract ID from URL dynamically
+const extractIdFromUrl = (req: NextRequest): string | null => {
+  const segments = req.nextUrl.pathname.split("/");
+  return segments[segments.length - 1] || null;
+};
+
 // GET a single property by ID
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+    const id = extractIdFromUrl(req);
 
     if (!id) {
       return NextResponse.json({ error: "Property ID is required" }, { status: 400 });
@@ -29,8 +34,7 @@ export async function GET(req: NextRequest) {
 // PUT (update) an existing property
 export async function PUT(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+    const id = extractIdFromUrl(req);
 
     if (!id) {
       return NextResponse.json({ error: "Property ID is required" }, { status: 400 });
@@ -65,8 +69,7 @@ export async function PUT(req: NextRequest) {
 // DELETE a property
 export async function DELETE(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+    const id = extractIdFromUrl(req);
 
     if (!id) {
       return NextResponse.json({ error: "Property ID is required" }, { status: 400 });
