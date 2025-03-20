@@ -10,6 +10,10 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
+			orange: {
+				500: "#FFA500", // Example shade
+				600: "#FF8C00", // Darker shade for hover
+			  },
   			daffodilYellow: '#FFD700',
   			softGreen: '#A3C293',
   			charcoalGray: '#333333',

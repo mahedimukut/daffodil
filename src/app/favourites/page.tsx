@@ -132,7 +132,7 @@ const FavouritePage = () => {
               {favorites.map((property) => (
                 <div
                   key={property.id}
-                  className="border border-gray-200 rounded-lg shadow-sm overflow-hidden"
+                  className="border border-gray-200 rounded-lg shadow-sm overflow-hidden hover:border-daffodilYellow transition-all"
                 >
                   <div className="relative">
                     <Link href={`/available-rooms/${property.id}`}>

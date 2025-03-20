@@ -1,3 +1,4 @@
+// app/layout.tsx
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
@@ -7,6 +8,8 @@ import ClientWrapper from "./components/ClientWrapper"; // A client-side wrapper
 import TopBar from "./components/TopBar";
 import WhatsAppWidget from "./components/WhatsApp";
 import CustomQueryClientProvider from "@/lib/QueryClientProvider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Import both fonts with CSS variables
 const poppins = Poppins({
@@ -43,6 +46,7 @@ export default function RootLayout({
             {children}
             <Footer />
             <WhatsAppWidget />
+            <ToastContainer />
           </CustomQueryClientProvider>
         </ClientWrapper>
       </body>

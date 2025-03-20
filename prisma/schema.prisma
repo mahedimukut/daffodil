@@ -105,3 +105,26 @@ model Favorite {
 
   @@unique([userId, propertyId])
 }
+
+model TeamMember {
+  id          String   @id @default(cuid())
+  name        String
+  position    String
+  image       String
+  description String
+  socials     Json // Store social media links as a JSON object
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Job {
+  id               String   @id @default(cuid())
+  title            String
+  location         String
+  description      String
+  responsibilities String[] // Array of strings for responsibilities
+  requirements     String[] // Array of strings for requirements
+  benefits         String[] // Array of strings for benefits
+  createdAt        DateTime @default(now()) // Timestamp for when the job was created
+  updatedAt        DateTime @updatedAt // Timestamp for when the job was last updated
+}

@@ -19,12 +19,15 @@ import {
   FaLinkedinIn,
 } from "react-icons/fa6";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { GiMagicGate } from "react-icons/gi";
+import { FaMagic } from "react-icons/fa";
 
 const navItems = [
   { name: "Home", href: "/" },
   { name: "About us", href: "/about-us" },
   { name: "Our services", href: "/our-services" },
   { name: "Available rooms", href: "/available-rooms" },
+  { name: "Jobs", href: "/jobs" },
   { name: "Contact us", href: "/contact-us" },
 ];
 
@@ -96,12 +99,12 @@ export const Header = () => {
                   {/* Show Add Rooms if admin */}
                   {session.user.email === "mokot222@gmail.com" && (
                     <Link
-                      href="/admin/add-rooms"
+                      href="/admin/dashboard"
                       className="flex items-center gap-2 px-4 py-2 text-sm text-charcoalGray hover:bg-gray-100"
                       onClick={() => setDropdownOpen(!dropdownOpen)}
                     >
-                      <PlusSquare className="w-4 h-4" />
-                      Add Rooms
+                      <FaMagic className="w-4 h-4" />
+                      Dashboard
                     </Link>
                   )}
                   <button

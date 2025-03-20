@@ -12,8 +12,6 @@ import NewlyArrived from "./components/NewlyArrived";
 import SolutionsSection from "./components/SolutionsSection";
 import CookieConsentBanner from "./components/CookieConsentBanner";
 import { useState, useEffect } from "react";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
   const [hasAcceptedCookies, setHasAcceptedCookies] = useState(false);
@@ -52,8 +50,6 @@ const Home = () => {
       {!hasAcceptedCookies && (
         <CookieConsentBanner onAccept={handleAcceptCookies} />
       )}
-
-      <ToastContainer />
     </>
   );
 };

@@ -5,8 +5,13 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "daffodil-rose.vercel.app",
-        pathname: "/**",
+        hostname: "res.cloudinary.com", // Single hostname
+        pathname: "/**", // Allow all paths
+      },
+      {
+        protocol: "https",
+        hostname: "daffodil-rose.vercel.app", // Single hostname
+        pathname: "/**", // Allow all paths
       },
     ],
   },

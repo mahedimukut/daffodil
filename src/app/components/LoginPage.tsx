@@ -2,44 +2,58 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { FcGoogle } from "react-icons/fc";
+import { Loader2 } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { signIn } from "next-auth/react";
-import { Mail, Lock } from "lucide-react";
-import { FcGoogle } from "react-icons/fc";
-import { Loader2 } from "lucide-react";
 
-const loginSchema = z.object({
+// Define the Zod schema for email validation
+const emailSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-type LoginFormInputs = z.infer<typeof loginSchema>;
+type EmailFormInputs = z.infer<typeof emailSchema>;
 
 const LoginPageComponent = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
+  // Initialize react-hook-form with Zod resolver
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema),
+    formState: { errors },
+  } = useForm<EmailFormInputs>({
+    resolver: zodResolver(emailSchema),
   });
 
-  const onSubmit = async (data: LoginFormInputs) => {
+  const handleMagicLinkLogin = async (data: EmailFormInputs) => {
+    setIsLoading(true);
     setError(null);
-    const result = await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      redirect: false,
-    });
 
-    if (result?.error) {
-      setError("Invalid email or password");
+    try {
+      const result = await signIn("resend", {
+        email: data.email,
+        redirect: false,
+        callbackUrl,
+      });
+
+      if (result?.error) {
+        setError("Failed to send magic link. Please try again.");
+        toast.error("Failed to send magic link. Please try again."); // Show error toast
+      } else {
+        toast.success("Magic link sent successfully. Please check your email."); // Show success toast
+      }
+    } catch (error) {
+      setError("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again."); // Show error toast
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -51,7 +65,7 @@ const LoginPageComponent = () => {
         </h2>
 
         <button
-          onClick={() => signIn("google", { callbackUrl: callbackUrl || "/" })}
+          onClick={() => signIn("google", { callbackUrl })}
           className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-charcoalGray font-semibold py-3 rounded-md mb-6 shadow-md hover:bg-gray-100 transition-all"
         >
           <FcGoogle className="h-5 w-5 text-red-500" />
@@ -64,39 +78,21 @@ const LoginPageComponent = () => {
           <hr className="w-1/3 border-gray-300" />
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <form
+          onSubmit={handleSubmit(handleMagicLinkLogin)}
+          className="space-y-5"
+        >
           <div>
             <label className="block text-charcoalGray font-medium">Email</label>
-            <div className="relative mt-1">
-              <Mail className="absolute left-3 top-3 text-gray-400" size={20} />
-              <input
-                type="email"
-                {...register("email")}
-                className="w-full border border-gray-300 rounded-md py-3 pl-10 pr-4 focus:outline-none focus:border-softGreen"
-              />
-            </div>
+            <input
+              type="email"
+              {...register("email")}
+              className="w-full border border-gray-300 rounded-md py-3 px-4 focus:outline-none focus:border-softGreen"
+              placeholder="Enter your email"
+            />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.email.message}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <label className="block text-charcoalGray font-medium">
-              Password
-            </label>
-            <div className="relative mt-1">
-              <Lock className="absolute left-3 top-3 text-gray-400" size={20} />
-              <input
-                type="password"
-                {...register("password")}
-                className="w-full border border-gray-300 rounded-md py-3 pl-10 pr-4 focus:outline-none focus:border-softGreen"
-              />
-            </div>
-            {errors.password && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.password.message}
               </p>
             )}
           </div>
@@ -105,26 +101,16 @@ const LoginPageComponent = () => {
 
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isLoading}
             className="w-full bg-daffodilYellow text-charcoalGray font-semibold py-3 rounded-md hover:bg-softGreen transition-all"
           >
-            {isSubmitting ? (
+            {isLoading ? (
               <Loader2 className="h-5 w-5 animate-spin mx-auto" />
             ) : (
-              "Login"
+              "Send Magic Link"
             )}
           </button>
         </form>
-
-        <p className="text-center mt-6 text-charcoalGray">
-          Don't have an account?{" "}
-          <a
-            href={`/auth/signup?callbackUrl=${encodeURIComponent(callbackUrl)}`}
-            className="text-charcoalGray font-semibold hover:underline"
-          >
-            Sign Up
-          </a>
-        </p>
       </div>
     </div>
   );

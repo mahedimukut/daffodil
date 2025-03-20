@@ -270,7 +270,7 @@ export default function PropertyList() {
             filteredProperties.slice(0, visibleProperties).map((property) => (
               <div
                 key={property.id}
-                className="border border-gray-200 rounded-lg shadow-sm overflow-hidden"
+                className="border border-gray-200 rounded-lg shadow-sm overflow-hidden hover:border-daffodilYellow transition-all"
               >
                 <div>
                   <Link href={`/available-rooms/${property.id}`}>

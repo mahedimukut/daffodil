@@ -124,7 +124,7 @@ const Booking = () => {
             {bookings.map((booking: Booking) => (
               <div
                 key={booking.id}
-                className="border border-gray-200 rounded-lg shadow-sm overflow-hidden"
+                className="border border-gray-200 rounded-lg shadow-sm overflow-hidden hover:border-daffodilYellow transition-all"
               >
                 <Link href={`/available-rooms/${booking.property.id}`}>
                   <div className="relative">

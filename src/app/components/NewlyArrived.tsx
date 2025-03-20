@@ -140,7 +140,7 @@ const NewlyArrived = () => {
                 .map((property) => (
                   <div
                     key={property.id}
-                    className="border border-gray-200 rounded-lg shadow-sm overflow-hidden hover:shadow-xl transition-all"
+                    className="border border-gray-200 rounded-lg shadow-sm overflow-hidden hover:border-daffodilYellow transition-all"
                   >
                     <Link href={`/available-rooms/${property.id}`}>
                       <div className="relative">

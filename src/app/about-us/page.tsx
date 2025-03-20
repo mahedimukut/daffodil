@@ -1,86 +1,51 @@
+"use client"; // Add this directive since we're using hooks
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import MaxWidthWrapper from "../components/MaxWidthWrapper";
 import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
-const companyImage = "/company.jpg";
+const companyImage = "/company.jpeg";
 
-const teamMembers = [
-  {
-    name: "John Doe",
-    position: "Founder & CEO",
-    image: "/team/team1.jpg",
-    description:
-      "With years of experience in the property sector, John leads our vision to revolutionize HMO solutions.",
-    socials: {
-      linkedin: "#",
-      x: "#",
-      facebook: "#",
-    },
-  },
-  {
-    name: "Michael Johnson",
-    position: "Head of Compliance",
-    image: "/team/team3.jpg",
-    description:
-      "Michael is dedicated to maintaining top-tier compliance and regulatory adherence in the industry.",
-    socials: {
-      linkedin: "#",
-      x: "#",
-      facebook: "#",
-    },
-  },
-  {
-    name: "Jane Smith",
-    position: "Operations Manager",
-    image: "/team/team2.jpg",
-    description:
-      "Jane ensures seamless operations and exceptional service delivery for landlords and tenants alike.",
-    socials: {
-      linkedin: "#",
-      x: "#",
-      facebook: "#",
-    },
-  },
-  {
-    name: "Sophia Brown",
-    position: "Marketing Director",
-    image: "/team/team3.jpg",
-    description:
-      "Sophia drives our marketing strategy, promoting our services and connecting with new clients.",
-    socials: {
-      linkedin: "#",
-      x: "#",
-      facebook: "#",
-    },
-  },
-  {
-    name: "Ethan Green",
-    position: "Financial Officer",
-    image: "/team/team2.jpg",
-    description:
-      "Ethan manages our financial operations, ensuring the business stays profitable and financially healthy.",
-    socials: {
-      linkedin: "#",
-      x: "#",
-      facebook: "#",
-    },
-  },
-  {
-    name: "Isabella White",
-    position: "Client Relations Manager",
-    image: "/team/team1.jpg",
-    description:
-      "Isabella is the bridge between our clients and services, ensuring the best experience and satisfaction.",
-    socials: {
-      linkedin: "#",
-      x: "#",
-      facebook: "#",
-    },
-  },
-];
+// Define the type for a team member
+interface TeamMember {
+  name: string;
+  position: string;
+  image: string;
+  description: string;
+  socials: {
+    linkedin: string;
+    x: string;
+    facebook: string;
+  };
+}
 
 export default function AboutUs() {
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]); // State to store team members
+  const [loading, setLoading] = useState(true); // State to handle loading
+  const [error, setError] = useState<string | null>(null); // State to handle errors
+
+  // Fetch team members from the API
+  useEffect(() => {
+    const fetchTeamMembers = async () => {
+      try {
+        const response = await fetch("/api/teams");
+        if (!response.ok) {
+          throw new Error("Failed to fetch team members");
+        }
+        const data = await response.json();
+        setTeamMembers(data); // Set the fetched data to state
+      } catch (error) {
+        setError(error instanceof Error ? error.message : "An error occurred"); // Set error message if something goes wrong
+      } finally {
+        setLoading(false); // Set loading to false after the request is complete
+      }
+    };
+
+    fetchTeamMembers();
+  }, []);
+
   return (
     <div className="bg-gray-50 py-16">
       <MaxWidthWrapper>
@@ -129,49 +94,74 @@ export default function AboutUs() {
             Our dedicated team of experts is committed to delivering excellence
             in property management.
           </p>
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {teamMembers.map((member, index) => (
-              <div
-                key={index}
-                className="bg-white p-8 rounded-lg shadow-md text-center flex flex-col items-center transition-transform transform hover:scale-105"
-              >
-                <Image
-                  src={member.image}
-                  alt={member.name}
-                  width={150}
-                  height={150}
-                  className="rounded-full border-4 object-cover border-daffodilYellow w-44 h-44"
-                />
-                <h4 className="mt-4 text-xl font-semibold text-charcoalGray">
-                  {member.name}
-                </h4>
-                <p className="text-gray-600">{member.position}</p>
-                <p className="mt-2 text-sm text-gray-500">
-                  {member.description}
-                </p>
-                <div className="mt-4 flex justify-center space-x-4 text-gray-600">
-                  <a
-                    href={member.socials.linkedin}
-                    className="hover:text-daffodilYellow"
-                  >
-                    <FaLinkedinIn size={20} />
-                  </a>
-                  <a
-                    href={member.socials.x}
-                    className="hover:text-daffodilYellow"
-                  >
-                    <FaXTwitter size={20} />
-                  </a>
-                  <a
-                    href={member.socials.facebook}
-                    className="hover:text-daffodilYellow"
-                  >
-                    <FaFacebookF size={20} />
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
+          {error ? (
+            <p className="text-center text-lg text-red-500">{error}</p>
+          ) : (
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {loading
+                ? // Loading skeleton for team members
+                  Array.from({
+                    length: teamMembers.length > 0 ? teamMembers.length : 1,
+                  }).map((_, index) => (
+                    <div
+                      key={index}
+                      className="bg-white p-8 rounded-lg shadow-md text-center flex flex-col items-center"
+                    >
+                      <div className="rounded-full border-4 border-daffodilYellow w-44 h-44 bg-gray-200 animate-pulse"></div>
+                      <div className="mt-4 w-3/4 h-6 bg-gray-200 animate-pulse rounded"></div>
+                      <div className="mt-2 w-1/2 h-4 bg-gray-200 animate-pulse rounded"></div>
+                      <div className="mt-2 w-5/6 h-4 bg-gray-200 animate-pulse rounded"></div>
+                      <div className="mt-4 flex justify-center space-x-4">
+                        <div className="w-6 h-6 bg-gray-200 animate-pulse rounded-full"></div>
+                        <div className="w-6 h-6 bg-gray-200 animate-pulse rounded-full"></div>
+                        <div className="w-6 h-6 bg-gray-200 animate-pulse rounded-full"></div>
+                      </div>
+                    </div>
+                  ))
+                : // Render actual team members
+                  teamMembers.map((member, index) => (
+                    <div
+                      key={index}
+                      className="bg-white p-8 rounded-lg shadow-md text-center flex flex-col items-center transition-transform transform hover:scale-105"
+                    >
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        width={150}
+                        height={150}
+                        className="rounded-full border-4 object-cover border-daffodilYellow w-44 h-44"
+                      />
+                      <h4 className="mt-4 text-xl font-semibold text-charcoalGray">
+                        {member.name}
+                      </h4>
+                      <p className="text-gray-600">{member.position}</p>
+                      <p className="mt-2 text-sm text-gray-500">
+                        {member.description}
+                      </p>
+                      <div className="mt-4 flex justify-center space-x-4 text-gray-600">
+                        <a
+                          href={member.socials.linkedin}
+                          className="hover:text-daffodilYellow"
+                        >
+                          <FaLinkedinIn size={20} />
+                        </a>
+                        <a
+                          href={member.socials.x}
+                          className="hover:text-daffodilYellow"
+                        >
+                          <FaXTwitter size={20} />
+                        </a>
+                        <a
+                          href={member.socials.facebook}
+                          className="hover:text-daffodilYellow"
+                        >
+                          <FaFacebookF size={20} />
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+            </div>
+          )}
         </section>
       </MaxWidthWrapper>
     </div>

@@ -16,7 +16,8 @@ import { FaFacebook, FaLinkedin, FaHeart } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import MaxWidthWrapper from "@/app/components/MaxWidthWrapper";
 import { useSession } from "next-auth/react";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import {
@@ -127,6 +128,11 @@ const PropertyDetails = () => {
         }),
       });
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Booking failed.");
+      }
+
       // Send data to Resend
       const resendResponse = await fetch("/api/booking-email", {
         method: "POST",
@@ -135,20 +141,38 @@ const PropertyDetails = () => {
           to: `${data.email}`,
           subject: `New Booking Inquiry for ${property?.name}`,
           text: `Name: ${data.fullName}\nEmail: ${data.email}\nPhone: ${data.phoneNumber}\nMove-In Date: ${data.moveInDate}\nAdditional Notes: ${data.additionalNotes}`,
+          name: data.fullName,
+          data: data,
         }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Booking failed.");
+      if (!resendResponse.ok) {
+        throw new Error("Failed to send booking email.");
       }
 
-      toast.success("Booking successfully! We'll contact you soon.");
+      toast.success("Booking successfully!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
       setIsBooked(true);
       setIsBookingFormOpen(false);
     } catch (error) {
       console.error(error);
-      toast.error("Failed to submit booking inquiry. Please try again.");
+      toast.error("Failed to submit booking inquiry. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
@@ -166,10 +190,28 @@ const PropertyDetails = () => {
         throw new Error(errorData.error || "Cancellation failed.");
       }
 
-      toast.success("Booking canceled successfully!");
+      toast.success("Booking canceled successfully!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
       setIsBooked(false);
     } catch (error) {
       console.error(error);
+      toast.error("Failed to cancel booking. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
@@ -185,6 +227,7 @@ const PropertyDetails = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   const handleCancel = () => {
     setIsBookingFormOpen(false); // Close the dialog on cancel
   };
@@ -506,6 +549,19 @@ const PropertyDetails = () => {
           />
         </DialogContent>
       </Dialog>
+
+      {/* Toast Container */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
