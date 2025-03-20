@@ -3,16 +3,15 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "../../../../../auth";
 
 // PUT (update) an existing job by ID
-export async function PUT(req: NextRequest, { params }: { params: { id?: string } }) {
+export async function PUT(req: NextRequest, context: { params: { id?: string } }) {
   try {
     const session = await auth();
 
-    if (!session || !session.user || !session.user.email) {
+    if (!session || !session.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const id = params?.id;
-
+    const id = context.params.id;
     if (!id) {
       return NextResponse.json({ error: "Job ID is required" }, { status: 400 });
     }
@@ -26,14 +25,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id?: string 
 
     const updatedJob = await prisma.job.update({
       where: { id },
-      data: {
-        title,
-        location,
-        description,
-        responsibilities,
-        requirements,
-        benefits,
-      },
+      data: { title, location, description, responsibilities, requirements, benefits },
     });
 
     return NextResponse.json(updatedJob, { status: 200 });
@@ -44,23 +36,20 @@ export async function PUT(req: NextRequest, { params }: { params: { id?: string 
 }
 
 // DELETE a job by ID
-export async function DELETE(req: NextRequest, { params }: { params: { id?: string } }) {
+export async function DELETE(req: NextRequest, context: { params: { id?: string } }) {
   try {
     const session = await auth();
 
-    if (!session || !session.user || !session.user.email) {
+    if (!session || !session.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const id = params?.id;
-
+    const id = context.params.id;
     if (!id) {
       return NextResponse.json({ error: "Job ID is required" }, { status: 400 });
     }
 
-    await prisma.job.delete({
-      where: { id },
-    });
+    await prisma.job.delete({ where: { id } });
 
     return NextResponse.json({ message: "Job deleted successfully" }, { status: 200 });
   } catch (error) {
@@ -70,14 +59,12 @@ export async function DELETE(req: NextRequest, { params }: { params: { id?: stri
 }
 
 // GET a single job by ID or all jobs if no ID is provided
-export async function GET(req: NextRequest, { params }: { params: { id?: string } }) {
+export async function GET(req: NextRequest, context: { params: { id?: string } }) {
   try {
-    const id = params?.id;
+    const id = context.params.id;
 
     if (id) {
-      const job = await prisma.job.findUnique({
-        where: { id },
-      });
+      const job = await prisma.job.findUnique({ where: { id } });
 
       if (!job) {
         return NextResponse.json({ error: "Job not found" }, { status: 404 });
