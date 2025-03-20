@@ -15,7 +15,7 @@ interface Job {
   benefits: string[];
 }
 
-const JobDashboard = ({ user }: { user: any }) => {
+const JobDashboard = () => {
   const [jobs, setJobs] = useState<Job[]>([]); // State to store jobs
   const [loading, setLoading] = useState(true); // State to handle loading
   const [error, setError] = useState<string | null>(null); // State to handle errors

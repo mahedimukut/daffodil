@@ -14,7 +14,7 @@ interface Room {
   // Add other properties as needed
 }
 
-const DashboardClient = ({ user }: { user: any }) => {
+const DashboardClient = () => {
   const [rooms, setRooms] = useState<Room[]>([]); // State to store rooms with explicit type
   const [loading, setLoading] = useState(true); // State to handle loading
   const [error, setError] = useState<string | null>(null); // State to handle errors

@@ -18,7 +18,7 @@ interface TeamMember {
   };
 }
 
-const DashboardClient = ({ user }: { user: any }) => {
+const DashboardClient = () => {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]); // State to store team members
   const [loading, setLoading] = useState(true); // State to handle loading
   const [error, setError] = useState<string | null>(null); // State to handle errors
