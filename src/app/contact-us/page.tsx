@@ -86,12 +86,7 @@ const ContactForm = () => {
                   <span className="block font-semibold text-charcoalGray">
                     Call Us
                   </span>
-                  <a
-                    href="tel:+4407568353414"
-                    className="text-daffodilYellow font-medium"
-                  >
-                    +44 7568 353414
-                  </a>
+                  <a href="tel:+4407568353414">+44 7568 353414</a>
                 </p>
               </div>
 
@@ -103,11 +98,12 @@ const ContactForm = () => {
                   <span className="block font-semibold text-charcoalGray">
                     Email Us
                   </span>
-                  <a
-                    href="mailto:info@daffodilhmo.com"
-                    className="text-daffodilYellow font-medium"
-                  >
-                    info@daffodilhmosolutions.co.uk daffodil4hmo@gmail.com
+                  <a href="mailto:info@daffodilhmo.com">
+                    info@daffodilhmosolutions.co.uk
+                  </a>{" "}
+                  <br />
+                  <a href="mailto:daffodil4hmo@gmail.com">
+                    daffodil4hmo@gmail.com
                   </a>
                 </p>
               </div>
