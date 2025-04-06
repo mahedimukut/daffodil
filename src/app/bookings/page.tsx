@@ -137,7 +137,9 @@ const Booking = () => {
                 </Link>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-charcoalGray">
-                    {booking.property.name}
+                    <Link href={`/available-rooms/${booking.property.id}`}>
+                      {booking.property.name}
+                    </Link>
                   </h3>
                   <p className="text-softGreen mt-2">
                     £{booking.property.price} / month

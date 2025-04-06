@@ -23,33 +23,62 @@ import {
   FaBook,
   FaBalanceScale,
   FaChalkboardTeacher,
-  FaAmbulance,
 } from "react-icons/fa";
 
 const services = [
   {
     title: "Residents Support Services",
-    description:
-      "Work as a support worker, managing resident's files and weekly support notes, and carry out a mock support audit before the final audit.",
+    description: "Comprehensive support services for residents including:",
     icon: <FaUserCheck className="text-charcoalGray" size={30} />,
-  },
-  {
-    title: "Housing Benefits Claim",
-    description:
-      "Guaranteed 100% Housing Benefit Payment each month with follow-up support for tenants, landlords, and local authorities.",
-    icon: <FaHome className="text-charcoalGray" size={30} />,
+    subServices: [
+      {
+        title: "Housing Benefits Claim",
+        description:
+          "Guaranteed 100% Housing Benefit Payment each month with follow-up support for tenants, landlords, and local authorities.",
+        icon: <FaHome className="text-charcoalGray" size={30} />,
+      },
+      {
+        title: "Conflict Management",
+        description:
+          "Manage and resolve conflicts between HMO residents effectively.",
+        icon: <FaCog className="text-charcoalGray" size={30} />,
+      },
+      {
+        title: "Eviction Services",
+        description:
+          "Provide professional teams for hard eviction services when necessary.",
+        icon: <FaGavel className="text-charcoalGray" size={30} />,
+      },
+    ],
+    fullWidth: true,
   },
   {
     title: "Compliance",
-    description: "Fully compliant supported Exempt accommodation.",
+    description: "Fully compliant supported Exempt accommodation including:",
     icon: <FaShieldAlt className="text-charcoalGray" size={30} />,
+    subServices: [
+      {
+        title: "PACE Management",
+        description:
+          "Manage the Concept portal and ensure it is up to date with all necessary information.",
+        icon: <FaFileAlt className="text-charcoalGray" size={30} />,
+      },
+      {
+        title: "Pre-lease & Quarterly Inspections",
+        description:
+          "Ensure pre-lease inspections are carried out, resolve any issues during quarterly inspections.",
+        icon: <FaLifeRing className="text-charcoalGray" size={30} />,
+      },
+      {
+        title: "Regulatory Updates & Training",
+        description:
+          "Keep you informed of all legislative changes and provide staff training on compliance requirements.",
+        icon: <FaBook className="text-charcoalGray" size={30} />,
+      },
+    ],
+    fullWidth: true,
   },
-  {
-    title: "PACE Management",
-    description:
-      "Manage the Concept portal and ensure it is up to date with all necessary information.",
-    icon: <FaFileAlt className="text-charcoalGray" size={30} />,
-  },
+  // Rest of the services remain the same
   {
     title: "Referrals & Resident Finding",
     description:
@@ -68,28 +97,10 @@ const services = [
     icon: <FaClipboard className="text-charcoalGray" size={30} />,
   },
   {
-    title: "Pre-lease & Quarterly Inspections",
-    description:
-      "Ensure pre-lease inspections are carried out, resolve any issues during quarterly inspections.",
-    icon: <FaLifeRing className="text-charcoalGray" size={30} />,
-  },
-  {
     title: "Property Onboarding",
     description:
       "Prepare property onboarding paperwork and submit it to the landlord for adding to the portal.",
     icon: <FaSlidersH className="text-charcoalGray" size={30} />,
-  },
-  {
-    title: "Conflict Management",
-    description:
-      "Manage and resolve conflicts between HMO residents effectively.",
-    icon: <FaCog className="text-charcoalGray" size={30} />,
-  },
-  {
-    title: "Eviction Services",
-    description:
-      "Provide professional teams for hard eviction services when necessary.",
-    icon: <FaGavel className="text-charcoalGray" size={30} />,
   },
   {
     title: "Cleaning & House Management",
@@ -138,18 +149,6 @@ const services = [
     description: "Provide reliable legal support for all your property needs.",
     icon: <FaBalanceScale className="text-charcoalGray" size={30} />,
   },
-  {
-    title: "Training & Workshops",
-    description:
-      "Providing training sessions and workshops to keep property managers informed of new regulations and best practices.",
-    icon: <FaChalkboardTeacher className="text-charcoalGray" size={30} />,
-  },
-  {
-    title: "Emergency Support Services",
-    description:
-      "Offering 24/7 emergency support to handle urgent property management issues and maintenance requests.",
-    icon: <FaAmbulance className="text-charcoalGray" size={30} />,
-  },
 ];
 
 // Predefined background colors for the service boxes
@@ -176,11 +175,13 @@ const ServiceSection = () => {
           Our team is dedicated to offering efficient, reliable, and compliant
           solutions for property management and related services.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {services.map((service, index) => (
+
+        <div className="space-y-10">
+          {/* Full-width services (first two) */}
+          {services.slice(0, 2).map((service, index) => (
             <div
               key={index}
-              className={`p-6 border rounded-lg shadow-md transition-transform transform hover:scale-105 ${
+              className={`p-8 border rounded-lg shadow-sm transition-transform transform hover:scale-[1.01] ${
                 bgColors[index % bgColors.length]
               }`}
             >
@@ -188,13 +189,58 @@ const ServiceSection = () => {
                 <div className="p-4 bg-white text-charcoalGray rounded-full shadow">
                   {service.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-charcoalGray ml-4">
+                <h3 className="text-2xl font-bold text-charcoalGray ml-4">
                   {service.title}
                 </h3>
               </div>
-              <p className="text-gray-700">{service.description}</p>
+              <p className="text-gray-700 mb-4 text-lg">
+                {service.description}
+              </p>
+
+              {service.subServices && (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                  {service.subServices.map((subService, subIndex) => (
+                    <div
+                      key={subIndex}
+                      className="p-4 bg-white bg-opacity-70 rounded-lg"
+                    >
+                      <div className="flex items-center mb-2">
+                        <div className="p-2 bg-gray-100 text-charcoalGray rounded-full mr-3">
+                          {subService.icon}
+                        </div>
+                        <h4 className="font-semibold text-lg text-charcoalGray">
+                          {subService.title}
+                        </h4>
+                      </div>
+                      <p className="text-gray-600">{subService.description}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
+
+          {/* Regular 3-column grid for remaining services */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            {services.slice(2).map((service, index) => (
+              <div
+                key={index + 2} // Offset index by 2
+                className={`p-6 border rounded-lg shadow-sm transition-transform transform hover:scale-105 ${
+                  bgColors[(index + 2) % bgColors.length] // Offset index by 2
+                }`}
+              >
+                <div className="flex items-center mb-6">
+                  <div className="p-4 bg-white text-charcoalGray rounded-full shadow">
+                    {service.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold text-charcoalGray ml-4">
+                    {service.title}
+                  </h3>
+                </div>
+                <p className="text-gray-700">{service.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </MaxWidthWrapper>
     </div>

@@ -157,7 +157,9 @@ const FavouritePage = () => {
 
                   <div className="p-6">
                     <h3 className="text-xl font-semibold text-charcoalGray">
-                      {property.name}
+                      <Link href={`/available-rooms/${property.id}`}>
+                        {property.name}
+                      </Link>
                     </h3>
                     <p className="text-softGreen mt-2">
                       £{property.price} / month
