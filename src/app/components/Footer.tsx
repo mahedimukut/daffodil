@@ -72,18 +72,6 @@ const Footer = () => {
           <div className="max-w-7xl mx-auto px-4">
             {/* Main footer content */}
             <div className="flex flex-col sm:flex-row items-center justify-between">
-              {/* Logo Section */}
-              <div className="flex items-center mb-4 sm:mb-0 text-xl font-bold">
-                <Link href="/">
-                  <Image
-                    src={"/daffodil-logo-white-main.png"}
-                    width={70}
-                    height={50}
-                    alt="Daffodil logo"
-                  />
-                </Link>
-              </div>
-
               {/* Menu Links */}
               <div className="flex space-x-8 mb-4 sm:mb-0">
                 <Link href="/contact-us">
@@ -125,7 +113,7 @@ const Footer = () => {
             <div className="border-t border-gray-50 mt-8 opacity-30"></div>
 
             {/* Footer Text & Links */}
-            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center text-center text-sm mt-8">
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-between text-center text-sm mt-8">
               <p>© 2025 Daffodil HMO Solutions. All rights reserved.</p>
               <div>
                 <Link href="/privacy-policy">
