@@ -4,6 +4,7 @@ import { FaXTwitter } from "react-icons/fa6";
 
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import Link from "next/link";
+import Image from "next/image";
 
 const Footer = () => {
   return (
@@ -73,7 +74,14 @@ const Footer = () => {
             <div className="flex flex-col sm:flex-row items-center justify-between">
               {/* Logo Section */}
               <div className="flex items-center mb-4 sm:mb-0 text-xl font-bold">
-                Daffodil
+                <Link href="/">
+                  <Image
+                    src={"/daffodil-logo-white-main.png"}
+                    width={70}
+                    height={50}
+                    alt="Daffodil logo"
+                  />
+                </Link>
               </div>
 
               {/* Menu Links */}

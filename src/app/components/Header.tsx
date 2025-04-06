@@ -21,6 +21,7 @@ import {
 import { signIn, signOut, useSession } from "next-auth/react";
 import { GiMagicGate } from "react-icons/gi";
 import { FaMagic } from "react-icons/fa";
+import Image from "next/image";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -37,13 +38,16 @@ export const Header = () => {
   const { data: session, status } = useSession();
 
   return (
-    <header className="bg-gray-50 shadow-sm sticky z-[50] h-20 inset-x-0 top-0 w-full border-b border-gray-100 transition-all">
+    <header className="bg-gray-50 shadow-sm sticky z-[50] h-24 inset-x-0 top-0 w-full border-b border-gray-100 transition-all">
       <MaxWidthWrapper className="flex items-center justify-between px-6">
         {/* Logo */}
         <Link href="/">
-          <h1 className="text-2xl font-bold text-charcoalGray hover:text-black transition-colors duration-300">
-            Daffodil
-          </h1>
+          <Image
+            src={"/daffodil-logo.png"}
+            width={100}
+            height={100}
+            alt="Daffodil logo"
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -148,7 +152,15 @@ export const Header = () => {
         }`}
       >
         <div className="flex justify-between items-center p-6 border-b border-gray-200">
-          <h1 className="text-2xl font-bold text-charcoalGray">Daffodil</h1>
+          {/* Logo */}
+          <Link href="/">
+            <Image
+              src={"/daffodil-logo.png"}
+              width={70}
+              height={50}
+              alt="Daffodil logo"
+            />
+          </Link>
           <button onClick={() => setMenuOpen(false)}>
             <X className="w-8 h-8 text-charcoalGray" />
           </button>
