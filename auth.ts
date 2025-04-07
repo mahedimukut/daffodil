@@ -22,7 +22,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
     Resend({
       apiKey: process.env.NEXT_PUBLIC_RESEND_API_KEY!,
-      from: "daffodilhmosolutions.co.uk",
+      from: "noreply@daffodilhmosolutions.co.uk",
     }),
   ],
   session: { strategy: "jwt" },
