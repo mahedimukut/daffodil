@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import MaxWidthWrapper from "../components/MaxWidthWrapper";
-import { ChevronDown } from "lucide-react";
-import JobApplicationModal from "../components/JobApplicationModal"; // Import the modal
+import { ChevronDown, Briefcase, Frown } from "lucide-react";
+import JobApplicationModal from "../components/JobApplicationModal";
 
 // Define the Job type
 interface Job {
@@ -17,13 +17,12 @@ interface Job {
 }
 
 const CareersPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
-  const [selectedJobTitle, setSelectedJobTitle] = useState(""); // State to store the selected job title
-  const [jobs, setJobs] = useState<Job[]>([]); // State to store jobs fetched from the API
-  const [loading, setLoading] = useState(true); // State to handle loading
-  const [error, setError] = useState<string | null>(null); // State to handle errors
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedJobTitle, setSelectedJobTitle] = useState("");
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Fetch jobs from the API
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -45,19 +44,16 @@ const CareersPage = () => {
     fetchJobs();
   }, []);
 
-  // Function to handle the "Apply Now" button click
   const handleApplyNow = (jobTitle: string) => {
-    setSelectedJobTitle(jobTitle); // Set the selected job title
-    setIsModalOpen(true); // Open the modal
+    setSelectedJobTitle(jobTitle);
+    setIsModalOpen(true);
   };
 
-  // Function to close the modal
   const handleCloseModal = () => {
-    setIsModalOpen(false); // Close the modal
-    setSelectedJobTitle(""); // Clear the selected job title
+    setIsModalOpen(false);
+    setSelectedJobTitle("");
   };
 
-  // Display loading state
   if (loading) {
     return (
       <div className="bg-gray-100 py-12">
@@ -84,7 +80,6 @@ const CareersPage = () => {
     );
   }
 
-  // Display error state
   if (error) {
     return (
       <div className="bg-gray-100 py-12">
@@ -106,63 +101,84 @@ const CareersPage = () => {
         <h2 className="text-4xl font-extrabold text-charcoalGray text-center mb-12">
           Join Our Team
         </h2>
-        <div className="max-w-3xl mx-auto space-y-6">
-          {jobs.map((job) => (
-            <details
-              key={job.id}
-              className="bg-white p-5 rounded-lg border-l-4 border-daffodilYellow shadow-sm group"
-            >
-              <summary className="flex justify-between items-center font-semibold text-charcoalGray cursor-pointer">
-                <div>
-                  <h3 className="text-xl">{job.title}</h3>
-                  <p className="text-sm text-gray-600">{job.location}</p>
+        
+        {jobs.length === 0 ? (
+          <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-sm text-center">
+            <div className="flex flex-col items-center justify-center space-y-4">
+              <Frown size={48} className="text-gray-400" />
+              <h3 className="text-2xl font-semibold text-charcoalGray">
+                No Job Openings Available
+              </h3>
+              <p className="text-gray-600 max-w-md">
+                We currently don't have any open positions, but we're always looking for talented individuals. 
+                Please check back later or follow us on social media for updates!
+              </p>
+              <button
+                className="mt-4 flex items-center justify-center gap-2 bg-daffodilYellow text-charcoalGray px-6 py-2 rounded-md hover:bg-softGreen transition-all"
+                onClick={() => window.location.reload()}
+              >
+                <Briefcase size={18} />
+                Refresh Jobs
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="max-w-3xl mx-auto space-y-6">
+            {jobs.map((job) => (
+              <details
+                key={job.id}
+                className="bg-white p-5 rounded-lg border-l-4 border-daffodilYellow shadow-sm group"
+              >
+                <summary className="flex justify-between items-center font-semibold text-charcoalGray cursor-pointer">
+                  <div>
+                    <h3 className="text-xl">{job.title}</h3>
+                    <p className="text-sm text-gray-600">{job.location}</p>
+                  </div>
+                  <ChevronDown className="text-daffodilYellow group-open:rotate-180 transition-transform duration-300" />
+                </summary>
+                <div className="mt-4 space-y-4">
+                  <p className="text-gray-700">{job.description}</p>
+                  <div>
+                    <h4 className="font-semibold text-charcoalGray">
+                      Responsibilities:
+                    </h4>
+                    <ul className="list-disc list-inside text-gray-700">
+                      {job.responsibilities.map((responsibility, index) => (
+                        <li key={index}>{responsibility}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-charcoalGray">
+                      Requirements:
+                    </h4>
+                    <ul className="list-disc list-inside text-gray-700">
+                      {job.requirements.map((requirement, index) => (
+                        <li key={index}>{requirement}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-charcoalGray">Benefits:</h4>
+                    <ul className="list-disc list-inside text-gray-700">
+                      {job.benefits.map((benefit, index) => (
+                        <li key={index}>{benefit}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <button
+                    onClick={() => handleApplyNow(job.title)}
+                    className="bg-daffodilYellow text-charcoalGray px-6 py-2 rounded-md hover:bg-softGreen transition-all"
+                  >
+                    Apply Now
+                  </button>
                 </div>
-                <ChevronDown className="text-daffodilYellow group-open:rotate-180 transition-transform duration-300" />
-              </summary>
-              <div className="mt-4 space-y-4">
-                <p className="text-gray-700">{job.description}</p>
-                <div>
-                  <h4 className="font-semibold text-charcoalGray">
-                    Responsibilities:
-                  </h4>
-                  <ul className="list-disc list-inside text-gray-700">
-                    {job.responsibilities.map((responsibility, index) => (
-                      <li key={index}>{responsibility}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-charcoalGray">
-                    Requirements:
-                  </h4>
-                  <ul className="list-disc list-inside text-gray-700">
-                    {job.requirements.map((requirement, index) => (
-                      <li key={index}>{requirement}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-charcoalGray">Benefits:</h4>
-                  <ul className="list-disc list-inside text-gray-700">
-                    {job.benefits.map((benefit, index) => (
-                      <li key={index}>{benefit}</li>
-                    ))}
-                  </ul>
-                </div>
-                {/* Apply Now Button */}
-                <button
-                  onClick={() => handleApplyNow(job.title)}
-                  className="bg-daffodilYellow text-charcoalGray px-6 py-2 rounded-md hover:bg-softGreen transition-all"
-                >
-                  Apply Now
-                </button>
-              </div>
-            </details>
-          ))}
-        </div>
+              </details>
+            ))}
+          </div>
+        )}
       </MaxWidthWrapper>
 
-      {/* Job Application Modal */}
       <JobApplicationModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
