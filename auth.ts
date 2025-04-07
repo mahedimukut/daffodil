@@ -22,7 +22,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
     Resend({
       apiKey: process.env.NEXT_PUBLIC_RESEND_API_KEY!,
-      from: "onboarding@resend.dev",
+      from: "daffodilhmosolutions@gmail.com",
     }),
   ],
   session: { strategy: "jwt" },
@@ -33,14 +33,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const existingUser = await prisma.user.findUnique({
           where: { email: user.email! },
         });
-  
+
         if (existingUser) {
           // Always update the user's image with the Google profile picture
           await prisma.user.update({
             where: { id: existingUser.id },
             data: { image: profile?.picture }, // Use Google profile picture
           });
-  
+
           // Check if the user already has a Google account linked
           const existingAccount = await prisma.account.findFirst({
             where: {
@@ -48,7 +48,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               provider: "google",
             },
           });
-  
+
           if (!existingAccount) {
             // Link the Google account to the existing user
             await prisma.account.create({
@@ -60,10 +60,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               },
             });
           }
-  
+
           return true; // Allow sign-in
         }
-  
+
         // Create a new user if they don't exist
         await prisma.user.create({
           data: {
@@ -80,18 +80,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             },
           },
         });
-  
+
         return true;
       }
-  
+
       if (account?.provider === "resend") {
         // Handle Magic Link sign-in
         const existingUser = await prisma.user.findUnique({
           where: { email: user.email! },
         });
-  
+
         const gravatarUrl = getGravatarUrl(user.email!); // Generate Gravatar URL
-  
+
         if (existingUser) {
           // Update the user's image only if it's not set
           if (!existingUser.image) {
@@ -102,7 +102,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
           return true;
         }
-  
+
         // Create a new user if they don't exist
         await prisma.user.create({
           data: {
@@ -112,10 +112,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             role: "user",
           },
         });
-  
+
         return true;
       }
-  
+
       return false; // Deny sign-in for other providers
     },
   },
