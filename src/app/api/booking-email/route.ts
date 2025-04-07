@@ -6,20 +6,20 @@ const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
-    const { to, subject, name, data:emailData } = await req.json();
+    const { to, subject, name, data: emailData } = await req.json();
 
     const data = await resend.emails.send({
-      from: "Daffodil HMO <onboarding@resend.dev>", // Replace with your email
+      from: "Daffodil HMO <daffodilhmosolutions@gmail.com>", // Replace with your email
       to,
       subject,
       react: ThankYouEmailBookings({ name }),
     });
     // Send contact form submission email to the website provider
     await resend.emails.send({
-      from: "Daffodil HMO <onboarding@resend.dev>",
+      from: "Daffodil HMO <daffodilhmosolutions@gmail.com>",
       to: "mokot222@gmail.com",
       subject: "Booking information",
-      react: ContactFormSubmissionBookings({ name, email:emailData.email, mobile:emailData.phoneNumber, message:emailData.additionalNotes, moveinDate:emailData.moveInDate }),
+      react: ContactFormSubmissionBookings({ name, email: emailData.email, mobile: emailData.phoneNumber, message: emailData.additionalNotes, moveinDate: emailData.moveInDate }),
     });
     return Response.json(data);
   } catch (error) {
