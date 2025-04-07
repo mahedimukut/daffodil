@@ -101,7 +101,7 @@ export const Header = () => {
                     Bookings
                   </Link>
                   {/* Show Add Rooms if admin */}
-                  {session.user.email === "mokot222@gmail.com" && (
+                  {session.user.email === "daffodilhmosolutions@gmail.com" && (
                     <Link
                       href="/admin/dashboard"
                       className="flex items-center gap-2 px-4 py-2 text-sm text-charcoalGray hover:bg-gray-100"
