@@ -9,14 +9,14 @@ export async function POST(req: Request) {
     const { to, subject, name, data: emailData } = await req.json();
 
     const data = await resend.emails.send({
-      from: "Daffodil HMO <daffodilhmosolutions.co.uk>", // Replace with your email
+      from: "Daffodil HMO <noreply@daffodilhmosolutions.co.uk>", // Replace with your email
       to,
       subject,
       react: ThankYouEmailBookings({ name }),
     });
     // Send contact form submission email to the website provider
     await resend.emails.send({
-      from: "Daffodil HMO <daffodilhmosolutions.co.uk>",
+      from: "Daffodil HMO <noreply@daffodilhmosolutions.co.uk>",
       to: to,
       subject: "Booking information",
       react: ContactFormSubmissionBookings({ name, email: emailData.email, mobile: emailData.phoneNumber, message: emailData.additionalNotes, moveinDate: emailData.moveInDate }),
