@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Bed, Toilet, Square, Heart } from "lucide-react";
+import { Bed, Toilet, Square, Heart, Trees, Car } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import MaxWidthWrapper from "../components/MaxWidthWrapper";
@@ -14,6 +14,8 @@ type Property = {
   bedrooms: number;
   toilets: number;
   balcony: boolean;
+  garden: boolean;
+  parking: boolean;
   sqft: number;
   images: string[];
   details: string;
@@ -84,10 +86,8 @@ const FavouritePage = () => {
 
   if (!session) {
     return (
-      <div className="text-center mt-20">
-        <h2 className="text-2xl font-bold text-charcoalGray">
-          Please log in to view your favorite properties.
-        </h2>
+      <div className="text-center text-xl md:text-2xl font-semibold py-4 md:py-20">
+        Please log in to view your favourites item.
       </div>
     );
   }
@@ -177,11 +177,22 @@ const FavouritePage = () => {
                         <Square size={18} className="mr-1" />
                         {property.sqft} sqft
                       </div>
+                    </div>
+                    <div className="flex justify-between mt-2 text-charcoalGray text-sm">
                       <div className="flex items-center">
-                        {property.balcony ? (
-                          <span className="text-green-500">Balcony</span>
+                        <Car size={18} className="mr-1" />
+                        {property.parking ? (
+                          <span className="text-green-500">Parking</span>
                         ) : (
-                          <span className="text-red-500">No Balcony</span>
+                          <span className="text-red-500">No Parking</span>
+                        )}
+                      </div>
+                      <div className="flex items-center">
+                        <Trees size={18} className="mr-1" />
+                        {property.garden ? (
+                          <span className="text-green-500">Garden</span>
+                        ) : (
+                          <span className="text-red-500">No Garden</span>
                         )}
                       </div>
                     </div>

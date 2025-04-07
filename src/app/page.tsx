@@ -12,6 +12,7 @@ import NewlyArrived from "./components/NewlyArrived";
 import SolutionsSection from "./components/SolutionsSection";
 import CookieConsentBanner from "./components/CookieConsentBanner";
 import { useState, useEffect } from "react";
+import PropertySearchFilter from "./components/Filter";
 
 const Home = () => {
   const [hasAcceptedCookies, setHasAcceptedCookies] = useState(false);

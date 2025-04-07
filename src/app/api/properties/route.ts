@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { name, price, bedrooms, toilets, balcony, sqft, images, details, location, available } = body;
+    const { name, price, bedrooms, toilets, balcony, parking, garden, sqft, images, details, location, available } = body;
 
     // Validate required fields
     if (!name || !price || !bedrooms || !toilets || !sqft || !images || !details || !location || !available) {
@@ -32,6 +32,8 @@ export async function POST(req: Request) {
         bedrooms,
         toilets,
         balcony,
+        parking, 
+        garden,
         sqft,
         images, // Array of image URLs
         details,

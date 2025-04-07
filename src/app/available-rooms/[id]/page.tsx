@@ -11,6 +11,8 @@ import {
   MapPin,
   Share2,
   Plus,
+  Trees,
+  Car,
 } from "lucide-react";
 import { FaFacebook, FaLinkedin, FaHeart } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -25,7 +27,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"; // shadcn Dialog
+} from "@/components/ui/dialog";
 import BookingForm from "@/app/components/BookingForm";
 
 type Property = {
@@ -34,7 +36,8 @@ type Property = {
   price: string;
   bedrooms: number;
   toilets: number;
-  balcony: boolean;
+  garden: boolean;
+  parking: boolean;
   sqft: number;
   images: string[];
   details: string;
@@ -56,7 +59,6 @@ const PropertyDetails = () => {
   const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
   const [formStep, setFormStep] = useState(1);
 
-  // Fetch property and other data
   useEffect(() => {
     if (!id) return;
 
@@ -108,14 +110,12 @@ const PropertyDetails = () => {
     fetchFavorites();
   }, [id, session]);
 
-  // Handle booking form submission
   const handleBookingFormSubmit = async (data: any) => {
     if (!session) {
       toast.error("You must be logged in to book a property.");
       return;
     }
     try {
-      // Save booking to the database
       const response = await fetch("/api/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -133,7 +133,6 @@ const PropertyDetails = () => {
         throw new Error(errorData.error || "Booking failed.");
       }
 
-      // Send data to Resend
       const resendResponse = await fetch("/api/booking-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -176,7 +175,6 @@ const PropertyDetails = () => {
     }
   };
 
-  // Handle cancel booking
   const handleCancelBooking = async () => {
     try {
       const response = await fetch("/api/bookings", {
@@ -229,7 +227,7 @@ const PropertyDetails = () => {
   };
 
   const handleCancel = () => {
-    setIsBookingFormOpen(false); // Close the dialog on cancel
+    setIsBookingFormOpen(false);
   };
 
   const handleShare = () => {
@@ -305,7 +303,6 @@ const PropertyDetails = () => {
             {/* Image Gallery */}
             <div className="w-full lg:w-1/2">
               <div className="grid grid-cols-1 gap-2">
-                {/* First Image - Full Width */}
                 <div
                   key={0}
                   className="cursor-pointer"
@@ -326,7 +323,6 @@ const PropertyDetails = () => {
                   />
                 </div>
 
-                {/* Remaining Images - 3 Columns */}
                 <div className="grid grid-cols-3 gap-2">
                   {property.images.slice(1, 3).map((image, index) => (
                     <div
@@ -349,7 +345,6 @@ const PropertyDetails = () => {
                       />
                     </div>
                   ))}
-                  {/* Plus Icon Overlay for Remaining Images */}
                   {property.images.length > 3 && (
                     <div
                       className="relative cursor-pointer"
@@ -379,7 +374,6 @@ const PropertyDetails = () => {
                 </div>
               </div>
 
-              {/* Lightbox */}
               {isModalOpen && (
                 <Lightbox
                   open={isModalOpen}
@@ -402,7 +396,6 @@ const PropertyDetails = () => {
                 £{property.price} / month
               </p>
 
-              {/* Share Buttons */}
               <div className="mt-4 flex items-center gap-4">
                 <button
                   onClick={handleShare}
@@ -437,7 +430,6 @@ const PropertyDetails = () => {
                     <FaLinkedin size={18} />
                   </a>
                 </div>
-                {/* Heart Icon */}
                 <button
                   onClick={(e) => {
                     e.preventDefault();
@@ -478,10 +470,23 @@ const PropertyDetails = () => {
                   <MapPin size={20} className="mr-1" />
                   <span>{property.location}</span>
                 </div>
-                <div>
+                {/* Garden and Parking Information */}
+                <div className="flex items-center gap-3">
+                  <Trees size={20} className="mr-1" />
                   <span>
-                    Balcony:{" "}
-                    {property.balcony ? (
+                    Garden:{" "}
+                    {property.garden ? (
+                      <span className="text-green-500">Yes</span>
+                    ) : (
+                      <span className="text-red-500">No</span>
+                    )}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Car size={20} className="mr-1" />
+                  <span>
+                    Parking:{" "}
+                    {property.parking ? (
                       <span className="text-green-500">Yes</span>
                     ) : (
                       <span className="text-red-500">No</span>
@@ -490,7 +495,6 @@ const PropertyDetails = () => {
                 </div>
               </div>
 
-              {/* Book Now Button */}
               {!isBooked ? (
                 <button
                   onClick={() => setIsBookingFormOpen(true)}
@@ -535,7 +539,6 @@ const PropertyDetails = () => {
         )}
       </MaxWidthWrapper>
 
-      {/* Booking Form Dialog */}
       <Dialog open={isBookingFormOpen} onOpenChange={setIsBookingFormOpen}>
         <DialogContent className="sm:max-w-[600px]">
           <DialogHeader>
@@ -545,12 +548,11 @@ const PropertyDetails = () => {
             formStep={formStep}
             setFormStep={setFormStep}
             onSubmit={handleBookingFormSubmit}
-            onCancel={handleCancel} // Pass the onCancel handler
+            onCancel={handleCancel}
           />
         </DialogContent>
       </Dialog>
 
-      {/* Toast Container */}
       <ToastContainer
         position="top-right"
         autoClose={5000}

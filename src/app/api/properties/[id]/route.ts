@@ -41,7 +41,7 @@ export async function PUT(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { name, price, bedrooms, toilets, balcony, sqft, images, details, location, available } = body;
+    const { name, price, bedrooms, toilets, balcony,parking,garden, sqft, images, details, location, available } = body;
 
     const updatedProperty = await prisma.property.update({
       where: { id },
@@ -51,6 +51,8 @@ export async function PUT(req: NextRequest) {
         bedrooms,
         toilets,
         balcony,
+        parking,
+        garden,
         sqft,
         images,
         details,

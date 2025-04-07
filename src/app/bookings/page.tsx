@@ -74,7 +74,7 @@ const Booking = () => {
 
   if (!session) {
     return (
-      <div className="text-center text-lg font-semibold">
+      <div className="text-center text-xl md:text-2xl font-semibold py-4 md:py-20">
         Please log in to view your bookings.
       </div>
     );

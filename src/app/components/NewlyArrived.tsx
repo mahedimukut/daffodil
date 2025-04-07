@@ -1,21 +1,23 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
-import { Bed, Toilet, Square, Heart } from "lucide-react";
+import { Bed, Toilet, Square, Heart, Car, Trees } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 
 // Define Property Type
 type Property = {
-  id: string; // Change from `number` to `string`
+  id: string;
   name: string;
   price: string;
   bedrooms: number;
   toilets: number;
   balcony: boolean;
+  garden: boolean;
+  parking: boolean;
   sqft: number;
-  images: string[]; // Change from `image` to `images`
+  images: string[];
   details: string;
   location: string;
   available: string;
@@ -26,7 +28,7 @@ const NewlyArrived = () => {
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [propertyList, setPropertyList] = useState<Property[]>([]);
-  const [favorites, setFavorites] = useState<string[]>([]); // Store favorite property IDs
+  const [favorites, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchProperties = async () => {
@@ -67,7 +69,6 @@ const NewlyArrived = () => {
   }, [session]);
 
   const toggleFavorite = async (propertyId: string) => {
-    // Change from `number` to `string`
     if (!session) {
       toast.error("Please sign in to add to favorites");
       return;
@@ -86,11 +87,10 @@ const NewlyArrived = () => {
         throw new Error("Failed to update favorite status");
       }
 
-      setFavorites(
-        (prevFavorites) =>
-          prevFavorites.includes(propertyId)
-            ? prevFavorites.filter((id) => id !== propertyId) // Remove if exists
-            : [...prevFavorites, propertyId] // Add if not exists
+      setFavorites((prevFavorites) =>
+        prevFavorites.includes(propertyId)
+          ? prevFavorites.filter((id) => id !== propertyId)
+          : [...prevFavorites, propertyId]
       );
     } catch (error) {
       console.error("Error updating favorite:", error);
@@ -110,9 +110,10 @@ const NewlyArrived = () => {
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {isLoading
-            ? Array.from({ length: 6 }).map((_, index) => (
+        <div className="mt-10">
+          {isLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {Array.from({ length: 6 }).map((_, index) => (
                 <div
                   key={index}
                   className="border border-gray-200 rounded-lg shadow-sm overflow-hidden animate-pulse"
@@ -129,13 +130,20 @@ const NewlyArrived = () => {
                     <div className="mt-4 h-10 bg-gray-300 rounded w-full"></div>
                   </div>
                 </div>
-              ))
-            : propertyList
+              ))}
+            </div>
+          ) : propertyList.length === 0 ? (
+            <div className="text-center text-charcoalGray text-lg mt-10">
+              🚫 No rooms currently available. Please check back later!
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {propertyList
                 .sort(
                   (a, b) =>
                     new Date(b.createdAt).getTime() -
                     new Date(a.createdAt).getTime()
-                ) // Sort by newest first
+                )
                 .slice(0, 6)
                 .map((property) => (
                   <div
@@ -145,7 +153,7 @@ const NewlyArrived = () => {
                     <Link href={`/available-rooms/${property.id}`}>
                       <div className="relative">
                         <img
-                          src={property.images[0]} // Use the first image from the array
+                          src={property.images[0]}
                           alt={property.name}
                           className="w-full h-56 object-cover opacity-0 transition-opacity duration-700 ease-in-out"
                           loading="lazy"
@@ -194,11 +202,22 @@ const NewlyArrived = () => {
                           <Square size={18} className="mr-1" />
                           {property.sqft} sqft
                         </div>
+                      </div>
+                      <div className="flex justify-between mt-2 text-charcoalGray text-sm">
                         <div className="flex items-center">
-                          {property.balcony ? (
-                            <span className="text-green-500">Balcony</span>
+                          <Car size={18} className="mr-1" />
+                          {property.parking ? (
+                            <span className="text-green-500">Parking</span>
                           ) : (
-                            <span className="text-red-500">No Balcony</span>
+                            <span className="text-red-500">No Parking</span>
+                          )}
+                        </div>
+                        <div className="flex items-center">
+                          <Trees size={18} className="mr-1" />
+                          {property.garden ? (
+                            <span className="text-green-500">Garden</span>
+                          ) : (
+                            <span className="text-red-500">No Garden</span>
                           )}
                         </div>
                       </div>
@@ -210,6 +229,8 @@ const NewlyArrived = () => {
                     </div>
                   </div>
                 ))}
+            </div>
+          )}
         </div>
       </MaxWidthWrapper>
     </div>

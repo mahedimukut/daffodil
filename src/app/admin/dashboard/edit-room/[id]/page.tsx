@@ -22,6 +22,8 @@ const propertySchema = z.object({
   bedrooms: z.number().min(1, "At least 1 bedroom required"),
   toilets: z.number().min(1, "At least 1 toilet required"),
   balcony: z.boolean(),
+  garden: z.boolean(),
+  parking: z.boolean(),
   sqft: z.number().min(100, "Minimum size is 100 sqft"),
   images: z.array(z.string().url("Valid image URL required")),
   details: z.string().min(10, "Property details required"),
@@ -32,11 +34,11 @@ const propertySchema = z.object({
 export default function EditRoomPage() {
   const { data: session } = useSession();
   const router = useRouter();
-  const params = useParams(); // Get the `id` from the URL params
-  const [loading, setLoading] = useState(false); // Loading state for form submission
-  const [fetching, setFetching] = useState(true); // Loading state for fetching data
-  const [imageUrls, setImageUrls] = useState<string[]>([]); // State for image URLs
-  const [availableDate, setAvailableDate] = useState<Date | null>(null); // State for the date picker
+  const params = useParams();
+  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [availableDate, setAvailableDate] = useState<Date | null>(null);
 
   const {
     register,
@@ -46,7 +48,6 @@ export default function EditRoomPage() {
     reset,
   } = useForm({ resolver: zodResolver(propertySchema) });
 
-  // Fetch the property data based on the `id`
   useEffect(() => {
     const fetchProperty = async () => {
       try {
@@ -55,28 +56,28 @@ export default function EditRoomPage() {
           throw new Error("Failed to fetch property");
         }
         const data = await response.json();
-        console.log("Fetched data:", data); // Debugging: Log the fetched data
-        // Set the form values with the fetched data
         reset({
           name: data.name,
           price: data.price,
           bedrooms: data.bedrooms,
           toilets: data.toilets,
           balcony: data.balcony,
+          garden: data.garden,
+          parking: data.parking,
           sqft: data.sqft,
           images: data.images,
           details: data.details,
           location: data.location,
           available: data.available,
         });
-        setImageUrls(data.images); // Set the image URLs
+        setImageUrls(data.images);
         if (data.available) {
-          setAvailableDate(new Date(data.available)); // Set the date picker value
+          setAvailableDate(new Date(data.available));
         }
       } catch (error) {
         console.error("Error fetching property:", error);
       } finally {
-        setFetching(false); // Set fetching to false after data is loaded
+        setFetching(false);
       }
     };
 
@@ -89,34 +90,30 @@ export default function EditRoomPage() {
     return <p className="text-red-500">Access denied. Admins only.</p>;
   }
 
-  // Handle image upload from Cloudinary
   const handleImageUpload = (result: any) => {
     if (result.event === "success") {
-      const url = result.info.secure_url; // Get the uploaded image URL
-      setImageUrls((prev) => [...prev, url]); // Add the URL to the state
-      setValue("images", [...imageUrls, url]); // Update the form value
+      const url = result.info.secure_url;
+      setImageUrls((prev) => [...prev, url]);
+      setValue("images", [...imageUrls, url]);
     }
   };
 
-  // Remove an image URL from the list
   const removeImageUrl = (url: string) => {
     const updatedUrls = imageUrls.filter((imageUrl) => imageUrl !== url);
     setImageUrls(updatedUrls);
-    setValue("images", updatedUrls); // Update the form value
+    setValue("images", updatedUrls);
   };
 
-  // Handle date change for the date picker
   const handleDateChange = (date: Date | null) => {
     setAvailableDate(date);
     if (date) {
-      const formattedDate = format(date, "yyyy-MM"); // Format the date as YYYY-MM
-      setValue("available", formattedDate); // Update the form value
+      const formattedDate = format(date, "yyyy-MM");
+      setValue("available", formattedDate);
     } else {
-      setValue("available", ""); // Clear the form value if no date is selected
+      setValue("available", "");
     }
   };
 
-  // Handle form submission
   const onSubmit = async (data: any) => {
     setLoading(true);
     try {
@@ -126,7 +123,7 @@ export default function EditRoomPage() {
         body: JSON.stringify(data),
       });
       if (!response.ok) throw new Error("Failed to update property");
-      router.push("/admin/dashboard/rooms"); // Redirect to the rooms page
+      router.push("/admin/dashboard/rooms");
     } catch (error) {
       console.error(error);
     } finally {
@@ -134,7 +131,6 @@ export default function EditRoomPage() {
     }
   };
 
-  // Show loading state while fetching data
   if (fetching) {
     return (
       <div className="w-full">
@@ -152,7 +148,6 @@ export default function EditRoomPage() {
         <div className="w-3/5 p-6 bg-white shadow-lg rounded-lg my-4 sm:my-8">
           <h2 className="text-xl font-bold mb-4">Edit Property</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            {/* Existing fields (name, price, bedrooms, etc.) */}
             <Input {...register("name")} placeholder="Property Name" />
             {errors.name?.message && (
               <p className="text-red-500">{String(errors.name.message)}</p>
@@ -181,9 +176,22 @@ export default function EditRoomPage() {
               <p className="text-red-500">{String(errors.toilets.message)}</p>
             )}
 
-            <div className="flex items-center space-x-2">
-              <input type="checkbox" {...register("balcony")} id="balcony" />
-              <label htmlFor="balcony">Balcony</label>
+            {/* Amenities Checkboxes */}
+            <div className="flex flex-wrap gap-4">
+              <div className="flex items-center space-x-2">
+                <input type="checkbox" {...register("balcony")} id="balcony" />
+                <label htmlFor="balcony">Balcony</label>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <input type="checkbox" {...register("garden")} id="garden" />
+                <label htmlFor="garden">Garden</label>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <input type="checkbox" {...register("parking")} id="parking" />
+                <label htmlFor="parking">Parking</label>
+              </div>
             </div>
 
             <Input
@@ -201,17 +209,13 @@ export default function EditRoomPage() {
               <CldUploadWidget
                 uploadPreset="daffodilhmosolutions"
                 onUpload={handleImageUpload}
-                options={{
-                  multiple: true, // Allow multiple files
-                }}
+                options={{ multiple: true }}
               >
-                {({ open }) => {
-                  return (
-                    <Button type="button" onClick={() => open()}>
-                      Upload Images
-                    </Button>
-                  );
-                }}
+                {({ open }) => (
+                  <Button type="button" onClick={() => open()}>
+                    Upload Images
+                  </Button>
+                )}
               </CldUploadWidget>
               {errors.images?.message && (
                 <p className="text-red-500">{String(errors.images.message)}</p>
@@ -250,7 +254,7 @@ export default function EditRoomPage() {
               <p className="text-red-500">{String(errors.location.message)}</p>
             )}
 
-            {/* Date Picker for Available Date */}
+            {/* Date Picker */}
             <div>
               <label className="block mb-2">Available Date</label>
               <DatePicker
@@ -286,6 +290,7 @@ export default function EditRoomPage() {
             </li>
             <li>💰 Set a competitive price based on market trends.</li>
             <li>📍 Be accurate with the location to avoid confusion.</li>
+            <li>✅ Highlight amenities like parking, garden, or balcony.</li>
           </ul>
           <div className="mt-6">
             <h3 className="text-lg font-semibold mb-4">FAQs</h3>

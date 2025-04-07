@@ -65,9 +65,11 @@ model Property {
   price     String
   bedrooms  Int
   toilets   Int
-  balcony   Boolean
+  balcony   Boolean  @default(false) // Explicit default
+  garden    Boolean  @default(false) // Explicit default
+  parking   Boolean  @default(false) // Explicit default
   sqft      Int
-  images    String[] // Use Json? for MySQL
+  images    String[]
   details   String
   location  String
   available String // Consider using DateTime
