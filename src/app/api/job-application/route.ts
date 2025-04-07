@@ -23,7 +23,7 @@ export async function POST(req: Request) {
 
     // Send thank-you email to the job seeker
     await resend.emails.send({
-      from: "DaffodilHmoSolutions <daffodilhmosolutions@gmail.com>",
+      from: "DaffodilHmoSolutions <daffodilhmosolutions.co.uk>",
       to: email,
       subject: "Thank You for Your Application!",
       react: ThankYouEmail({ name }),
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
 
     // Send job application email to yourself
     await resend.emails.send({
-      from: "DaffodilHmoSolutions <daffodilhmosolutions@gmail.com>",
+      from: "DaffodilHmoSolutions <daffodilhmosolutions.co.uk>",
       to: "mokot222@gmail.com", // Replace with your email
       subject: `New Job Application for ${jobTitle}`,
       react: JobApplicationEmail({ name, email, mobile, coverLetter, jobTitle }),

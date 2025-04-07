@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
     // Send thank you email to the user
     await resend.emails.send({
-      from: "Daffodil HMO <daffodilhmosolutions@gmail.com>",
+      from: "Daffodil HMO <daffodilhmosolutions.co.uk>",
       to: email,
       subject: "Thank You for Contacting Us!",
       react: ThankYouEmail({ name }),
@@ -19,8 +19,8 @@ export async function POST(req: Request) {
 
     // Send contact form submission email to the website provider
     await resend.emails.send({
-      from: "Daffodil HMO <daffodilhmosolutions@gmail.com>",
-      to: "mokot222@gmail.com",
+      from: "Daffodil HMO <daffodilhmosolutions.co.uk>",
+      to: email,
       subject: "Landlords, Tenants or Investors Contact Form Submission",
       react: ContactFormSubmissionEmailClient({ name, email, mobile, message }),
     });
