@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     // Send contact form submission email to the website provider
     await resend.emails.send({
       from: "Daffodil HMO <noreply@daffodilhmosolutions.co.uk>",
-      to: email,
+      to: 'daffodilhmosolutions@gmail.com',
       subject: "New Contact Form Submission",
       react: ContactFormSubmissionEmail({ name, email, mobile, message }),
     });

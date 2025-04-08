@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
+import { ToastContainer } from "react-toastify";
 
 const LoginPageComponent = dynamic(() => import("@/app/components/LoginPage"), {
   ssr: false, // Disables server-side rendering for this component
@@ -37,5 +38,5 @@ export default function LoginPage() {
     );
   }
 
-  return <LoginPageComponent />;
+  return (<><LoginPageComponent /><ToastContainer /></>);
 }
