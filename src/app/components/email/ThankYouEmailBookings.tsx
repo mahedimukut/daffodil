@@ -18,7 +18,7 @@ export const ThankYouEmailBookings = ({ name }: { name: string }) => {
           {/* Logo Section */}
           <Section style={logoSectionStyle}>
             <Img
-              src="https://kalerbiborton.com/wp-content/uploads/2019/12/kaler-biborton-logo-1.png" // Replace with your logo URL
+              src="https://www.daffodilhmosolutions.co.uk/daffodil-logo.png" // Replace with your logo URL
               alt="Daffodil HMO Logo"
               width="120"
               height="auto"
