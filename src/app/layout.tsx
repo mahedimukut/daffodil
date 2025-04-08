@@ -25,13 +25,68 @@ const inter = Inter({
 
 // Metadata for SEO
 export const metadata: Metadata = {
-  title:
-    "Daffodil HMO Solutions - A Leading HMO Solutions Provider in Birmingham UK",
-  description:
-    "Daffodil Solutions specializes in profitable HMO business operations based in Birmingham, UK. Our aim is to support HMO businesses with their day-to-day challenges.",
-    icons: {
-      icon: '/favicon.png',
+  title: {
+    default: "Daffodil HMO Solutions - Leading HMO Provider in Birmingham UK",
+    template: "%s | Daffodil HMO Solutions"
+  },
+  description: "Specialists in profitable HMO operations. We support landlords and investors with HMO management, compliance, and maximising rental yields in Birmingham.",
+  keywords: [
+    "HMO solutions",
+    "HMO management",
+    "Birmingham HMO",
+    "HMO compliance",
+    "HMO landlords",
+    "HMO investment",
+    "UK HMO specialists"
+  ],
+  icons: {
+    icon: '/favicon.png',
+    apple: '/favicon.png',
+  },
+  openGraph: {
+    title: "Daffodil HMO Solutions - Expert HMO Management in Birmingham",
+    description: "Professional HMO solutions for landlords and investors. Maximise your rental property returns with our specialist services.",
+    url: "https://www.daffodilhmosolutions.co.uk",
+    siteName: "Daffodil HMO Solutions",
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Daffodil HMO Solutions - Professional HMO Management',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Daffodil HMO Solutions - HMO Experts in Birmingham",
+    description: "Specialist HMO management services helping landlords achieve higher rental yields",
+    images: ['/og-image.png'],
+    site: '@daffodilhmo',
+    creator: '@daffodilhmo',
+  },
+  metadataBase: new URL('https://www.daffodilhmosolutions.co.uk'),
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
     },
+  },
+  verification: {
+    google: 'your-google-verification-code',
+    yandex: 'your-yandex-verification-code',
+  },
+  category: 'property management',
 };
 
 export default function RootLayout({
