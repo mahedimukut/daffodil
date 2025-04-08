@@ -29,6 +29,9 @@ export const metadata: Metadata = {
     "Daffodil HMO Solutions - A Leading HMO Solutions Provider in Birmingham UK",
   description:
     "Daffodil Solutions specializes in profitable HMO business operations based in Birmingham, UK. Our aim is to support HMO businesses with their day-to-day challenges.",
+    icons: {
+      icon: '/favicon.png',
+    },
 };
 
 export default function RootLayout({
